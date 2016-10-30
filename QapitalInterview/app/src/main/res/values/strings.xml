@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">QapitalInterview</string>
+    <string name="error_goals">Some issues happen when app fetch goals</string>
 </resources>

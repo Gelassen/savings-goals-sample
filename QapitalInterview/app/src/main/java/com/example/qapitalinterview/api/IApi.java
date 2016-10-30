@@ -1,7 +1,10 @@
 package com.example.qapitalinterview.api;
 
 import com.example.qapitalinterview.model.Feed;
+import com.example.qapitalinterview.model.Feeds;
+import com.example.qapitalinterview.model.SavingRules;
 import com.example.qapitalinterview.model.SavingsGoal;
+import com.example.qapitalinterview.model.SavingsGoals;
 import com.example.qapitalinterview.model.SavingsRule;
 import com.example.qapitalinterview.model.User;
 
@@ -15,16 +18,16 @@ import rx.Observable;
  * Created by John on 10/30/2016.
  */
 
-public interface ApiInterface {
+public interface IApi {
 
     @GET("savingsgoals")
-    Observable<List<SavingsGoal>> getSavingsGoals();
+    Observable<SavingsGoals> getSavingsGoals();
 
     @GET("savingsgoals/{id}/feed")
-    Observable<List<Feed>> getSavingsGoalFeed(@Path("id") int id);
+    Observable<Feeds> getSavingsGoalFeed(@Path("id") int id);
 
     @GET("savingsrule")
-    Observable<List<SavingsRule>> getSavingsRule();
+    Observable<SavingRules> getSavingsRule();
 
     @GET("user/{id}")
     Observable<User> getUser(@Path("id") int id);

@@ -17,7 +17,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiModule {
 
-    public static ApiInterface getApiInterface(Context context) {
+    private static final String API = "http://qapital-ios-testtask.herokuapp.com";
+
+    public static IApi getApiInterface() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
 
@@ -25,11 +27,11 @@ public class ApiModule {
         okHttpClient.addInterceptor(logging);
 
         Retrofit.Builder builder = new Retrofit.Builder();
-        builder.baseUrl(context.getString(R.string.api));
+        builder.baseUrl(API);
         builder.addConverterFactory(GsonConverterFactory.create());
         builder.addCallAdapterFactory(RxJavaCallAdapterFactory.create());
         builder.client(okHttpClient.build());
 
-        return builder.build().create(ApiInterface.class);
+        return builder.build().create(IApi.class);
     }
 }
