@@ -11,4 +11,6 @@ import rx.Observable;
 public interface IModel {
 
     Observable<SavingsGoals> getSavingGoals();
+
+    Observable<SavingsGoals>  cacheSavingGoals();
  }

@@ -14,7 +14,7 @@ public class SavingsGoal {
     private Integer userId;
     @SerializedName("targetAmount")
     @Expose
-    private Object targetAmount;
+    private Float targetAmount;
     @SerializedName("currentBalance")
     @Expose
     private Integer currentBalance;
@@ -75,7 +75,7 @@ public class SavingsGoal {
      * @return
      * The targetAmount
      */
-    public Object getTargetAmount() {
+    public Float getTargetAmount() {
         return targetAmount;
     }
 
@@ -84,7 +84,7 @@ public class SavingsGoal {
      * @param targetAmount
      * The targetAmount
      */
-    public void setTargetAmount(Object targetAmount) {
+    public void setTargetAmount(Float targetAmount) {
         this.targetAmount = targetAmount;
     }
 
