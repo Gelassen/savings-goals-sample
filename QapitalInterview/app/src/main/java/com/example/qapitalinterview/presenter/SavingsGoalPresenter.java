@@ -62,6 +62,7 @@ public class SavingsGoalPresenter implements GoalsPresenter {
 
             @Override
             public void onNext(SavingsGoals savingsGoals) {
+                view.showData();
                 Log.d(App.TAG, "onNext: " + savingsGoals.getSavingsGoals().size());
             }
         });

@@ -18,6 +18,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.GoalDetailsActivity" />
+        <provider
+            android:authorities="com.example.qapitalinterview"
+            android:name=".storage.AppContentProvider" />
     </application>
 
 </manifest>

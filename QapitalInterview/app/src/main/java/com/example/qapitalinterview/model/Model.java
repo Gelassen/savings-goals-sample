@@ -23,8 +23,11 @@ public class Model implements IModel{
     private IApi api = ApiModule.getApiInterface();
     private ObservableGoal observableGoal;
 
+    private Context context;
+
     public Model(Context context) {
         observableGoal = new ObservableGoal(context);
+        this.context = context;
     }
 
     @Override
@@ -41,8 +44,8 @@ public class Model implements IModel{
                 .flatMap(new Func1<SavingsGoals, Observable<SavingsGoals>>() {
                     @Override
                     public Observable<SavingsGoals> call(SavingsGoals savingsGoals) {
-                        observableGoal.saveAll(savingsGoals.getSavingsGoals());
-                        return Observable.just(savingsGoals);
+                        return observableGoal.saveAll(savingsGoals.getSavingsGoals());
+//                        return Observable.just(savingsGoals);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread());

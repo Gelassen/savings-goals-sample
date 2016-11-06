@@ -41,7 +41,7 @@ public class MainActivity extends BaseActivity implements IGoalView, LoaderManag
         recyclerView.setAdapter(adapter);
 
         presenter = new SavingsGoalPresenter(this);
-//        presenter.onRefreshData();
+        presenter.onRefreshData();
 //
 //        GoalRepo goalRepo = new GoalRepo(this);
 //        goalRepo.open();
@@ -54,14 +54,18 @@ public class MainActivity extends BaseActivity implements IGoalView, LoaderManag
     }
 
     @Override
-    public void showData(final List<SavingsGoal> data) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                adapter.setModel(data);
-            }
-        });
+    public void showData() {
+        getSupportLoaderManager().restartLoader(0, null, this);
+    }
 
+    @Override
+    public void showData(final List<SavingsGoal> data) {
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                adapter.setModel(data);
+//            }
+//        });
     }
 
     @Override
