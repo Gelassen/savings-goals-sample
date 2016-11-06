@@ -26,7 +26,6 @@ public class Model implements IModel{
     private Context context;
 
     public Model(Context context) {
-        observableGoal = new ObservableGoal(context);
         this.context = context;
     }
 
