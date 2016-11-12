@@ -17,7 +17,6 @@ import com.example.qapitalinterview.model.SavingsGoal;
 import com.example.qapitalinterview.presenter.GoalsPresenter;
 import com.example.qapitalinterview.presenter.SavingsGoalPresenter;
 import com.example.qapitalinterview.storage.Contract;
-import com.example.qapitalinterview.storage.GoalRepo;
 import com.example.qapitalinterview.view.adapters.GoalsAdapter;
 
 import java.util.List;
@@ -95,6 +94,7 @@ public class MainActivity extends BaseActivity implements IGoalView, LoaderManag
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data == null) return;
         Log.d(App.TAG, "Data: " + data.getCount());
+        adapter.setModel(data);
     }
 
     @Override

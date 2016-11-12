@@ -8,31 +8,31 @@ public class SavingsGoal {
 
     @SerializedName("goalImageURL")
     @Expose
-    private String goalImageURL;
+    public String goalImageURL;
     @SerializedName("userId")
     @Expose
-    private Integer userId;
+    public Integer userId;
     @SerializedName("targetAmount")
     @Expose
-    private Float targetAmount;
+    public Float targetAmount;
     @SerializedName("currentBalance")
     @Expose
-    private Integer currentBalance;
+    public Integer currentBalance;
     @SerializedName("created")
     @Expose
-    private List<Integer> created = new ArrayList<Integer>();
+    public List<Integer> created = new ArrayList<Integer>();
     @SerializedName("status")
     @Expose
-    private String status;
+    public String status;
     @SerializedName("name")
     @Expose
-    private String name;
+    public String name;
     @SerializedName("id")
     @Expose
-    private Integer id;
+    public Integer id;
     @SerializedName("connectedUsers")
     @Expose
-    private Object connectedUsers;
+    public Object connectedUsers;
 
     /**
      *

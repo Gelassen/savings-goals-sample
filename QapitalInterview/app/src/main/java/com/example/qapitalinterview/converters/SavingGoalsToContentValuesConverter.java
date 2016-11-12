@@ -4,7 +4,6 @@ package com.example.qapitalinterview.converters;
 import android.content.ContentValues;
 
 import com.example.qapitalinterview.model.SavingsGoal;
-import com.example.qapitalinterview.model.SavingsGoals;
 import com.example.qapitalinterview.storage.Contract;
 
 import java.util.List;

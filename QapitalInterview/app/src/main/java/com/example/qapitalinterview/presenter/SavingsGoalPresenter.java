@@ -5,12 +5,9 @@ import android.util.Log;
 import com.example.qapitalinterview.App;
 import com.example.qapitalinterview.model.IModel;
 import com.example.qapitalinterview.model.Model;
-import com.example.qapitalinterview.model.SavingsGoal;
 import com.example.qapitalinterview.model.SavingsGoals;
 import com.example.qapitalinterview.view.GoalDetailsActivity;
 import com.example.qapitalinterview.view.IGoalView;
-
-import java.util.List;
 
 import rx.Observer;
 import rx.Subscription;

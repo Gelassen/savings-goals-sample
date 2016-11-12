@@ -5,14 +5,11 @@ import android.database.Cursor;
 import com.example.qapitalinterview.model.SavingsGoal;
 import com.example.qapitalinterview.storage.Contract;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by John on 10/30/2016.
  */
 
-public class CursorToSavingGoalsConverter implements IConverter<Cursor, List<SavingsGoal>> {
+public class CursorToSavingGoalConverter implements IConverter<Cursor, SavingsGoal> {
 
     private static final int NOT_INITIALIZED = -1;
 
@@ -25,26 +22,21 @@ public class CursorToSavingGoalsConverter implements IConverter<Cursor, List<Sav
     private int userIdIdx = NOT_INITIALIZED;
 
     @Override
-    public List<SavingsGoal> convert(Cursor from) {
-        if (from == null) return new ArrayList<>();
-
-        List<SavingsGoal> result = new ArrayList<>();
+    public SavingsGoal convert(Cursor from) {
+        if (from == null) return new SavingsGoal();
 
         initIdx(from);
 
-        while (from.moveToNext()) {
-            SavingsGoal savingsGoal = new SavingsGoal();
-            savingsGoal.setId(from.getInt(idIdx));
-            savingsGoal.setName(from.getString(nameIdx));
-            savingsGoal.setStatus(from.getString(statusIdx));
-            savingsGoal.setTargetAmount(from.getFloat(targetAmountIdx));
-            savingsGoal.setUserId(from.getInt(userIdIdx));
-            savingsGoal.setCurrentBalance(from.getInt(currentBalanceIdx));
-            savingsGoal.setGoalImageURL(from.getString(goalImageUrlIdx));
+        SavingsGoal savingsGoal = new SavingsGoal();
+        savingsGoal.setId(from.getInt(idIdx));
+        savingsGoal.setName(from.getString(nameIdx));
+        savingsGoal.setStatus(from.getString(statusIdx));
+        savingsGoal.setTargetAmount(from.getFloat(targetAmountIdx));
+        savingsGoal.setUserId(from.getInt(userIdIdx));
+        savingsGoal.setCurrentBalance(from.getInt(currentBalanceIdx));
+        savingsGoal.setGoalImageURL(from.getString(goalImageUrlIdx));
 
-            result.add(savingsGoal);
-        }
-        return result;
+        return savingsGoal;
     }
 
     public void initIdx(Cursor cursor) {

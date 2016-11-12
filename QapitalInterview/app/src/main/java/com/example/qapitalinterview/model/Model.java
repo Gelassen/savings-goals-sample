@@ -6,13 +6,10 @@ import com.example.qapitalinterview.api.ApiModule;
 import com.example.qapitalinterview.api.IApi;
 import com.example.qapitalinterview.storage.ObservableGoal;
 
-import java.util.List;
-
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
-import rx.subjects.BehaviorSubject;
 
 /**
  * Created by John on 10/30/2016.
@@ -27,6 +24,7 @@ public class Model implements IModel{
 
     public Model(Context context) {
         this.context = context;
+        this.observableGoal = new ObservableGoal(context);
     }
 
     @Override
@@ -44,7 +42,6 @@ public class Model implements IModel{
                     @Override
                     public Observable<SavingsGoals> call(SavingsGoals savingsGoals) {
                         return observableGoal.saveAll(savingsGoals.getSavingsGoals());
-//                        return Observable.just(savingsGoals);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread());
