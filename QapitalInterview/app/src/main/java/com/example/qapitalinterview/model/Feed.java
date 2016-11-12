@@ -14,6 +14,7 @@ public class Feed {
     @SerializedName("timestamp")
     @Expose
     private String timestamp;
+    private long  time; // timestamp as long
     @SerializedName("message")
     @Expose
     private String message;
@@ -73,6 +74,10 @@ public class Feed {
         return timestamp;
     }
 
+    public long getTime() {
+        return time;
+    }
+
     /**
      *
      * @param timestamp
@@ -80,6 +85,10 @@ public class Feed {
      */
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public void setTime(long timestamp) {
+        this.time = timestamp;
     }
 
     /**

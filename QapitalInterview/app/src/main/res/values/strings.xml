@@ -3,4 +3,12 @@
     <string name="error_goals">Some issues happen when app fetch goals</string>
 
     <string name="transition_goal_image">goal</string>
+
+    <string name="elapsed_years"> months</string>
+    <string name="elapsed_months"> months</string>
+    <string name="elapsed_days"> days</string>
+    <string name="elapsed_hours"> hours</string>
+    <string name="elapsed_minutes"> minutes</string>
+    <string name="elapsed_seconds"> seconds</string>
+
 </resources>

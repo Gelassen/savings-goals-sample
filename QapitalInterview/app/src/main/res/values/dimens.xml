@@ -8,4 +8,8 @@
     <dimen name="goal_title_height">48dp</dimen>
     <dimen name="goal_image_height">176dp</dimen>
     <dimen name="goal_text_size">18sp</dimen>
+
+    <!-- details screen -->
+    <dimen name="achievements_padding">16dp</dimen>
+    <dimen name="achievements_height">88dp</dimen>
 </resources>

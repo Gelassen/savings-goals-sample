@@ -25,6 +25,13 @@
             app:expandedTitleMarginStart="72dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
             <ImageView
                 android:id="@+id/goal_image"
                 android:layout_width="match_parent"
@@ -36,13 +43,61 @@
                 app:layout_collapseMode="parallax"
                 />
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
         </android.support.design.widget.CollapsingToolbarLayout>
+
     </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            >
+
+            <TextView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:maxLines="2"
+                android:gravity="center"
+                android:text="Your rules"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/list_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            >
+
+            <TextView
+                android:id="@+id/total_achievements"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="This week : 12 USD"
+                />
+
+        </FrameLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_achievements"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+    </LinearLayout>
+
+
 </android.support.design.widget.CoordinatorLayout>

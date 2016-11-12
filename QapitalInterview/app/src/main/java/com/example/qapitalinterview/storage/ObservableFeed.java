@@ -35,6 +35,7 @@ public class ObservableFeed {
                 subscriber.onStart();
 
                 Uri uri = Contract.contentUri(Contract.FeedTable.class);
+                cr.delete(uri, Contract.FeedTable.GOALD_ID + "=?", new String[] { String.valueOf(goalId) });
                 FeedsToContentValuesConverter converter = new FeedsToContentValuesConverter(goalId);
                 cr.bulkInsert(uri, converter.convert(data));
 

@@ -32,7 +32,7 @@ public class CursorToFeedsConverter implements IConverter<Cursor, List<Feed>> {
             Feed feed = new Feed();
             feed.setId(cursor.getString(feedIdx));
             feed.setType(cursor.getString(typeIdx));
-            feed.setTimestamp(cursor.getString(timestampIdx));
+            feed.setTime(cursor.getLong(timestampIdx));
             feed.setMessage(cursor.getString(messageIdx));
             feed.setAmount(cursor.getDouble(amountIdx));
             feed.setUserId(cursor.getInt(userIdIdx));

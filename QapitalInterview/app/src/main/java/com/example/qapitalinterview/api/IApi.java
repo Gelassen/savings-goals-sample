@@ -1,14 +1,10 @@
 package com.example.qapitalinterview.api;
 
-import com.example.qapitalinterview.model.Feed;
 import com.example.qapitalinterview.model.Feeds;
 import com.example.qapitalinterview.model.SavingRules;
-import com.example.qapitalinterview.model.SavingsGoal;
 import com.example.qapitalinterview.model.SavingsGoals;
-import com.example.qapitalinterview.model.SavingsRule;
 import com.example.qapitalinterview.model.User;
 
-import java.util.List;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;

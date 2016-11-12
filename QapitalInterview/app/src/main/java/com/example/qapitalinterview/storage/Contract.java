@@ -85,4 +85,5 @@ public class Contract {
         public final static String TYPE = "TYPE";
         public final static String AMOUNT = "AMOUNT";
     }
+
 }

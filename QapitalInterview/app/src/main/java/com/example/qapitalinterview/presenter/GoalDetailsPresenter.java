@@ -4,10 +4,15 @@ package com.example.qapitalinterview.presenter;
 import android.util.Log;
 
 import com.example.qapitalinterview.App;
+import com.example.qapitalinterview.model.Feed;
 import com.example.qapitalinterview.model.Feeds;
 import com.example.qapitalinterview.model.IModel;
 import com.example.qapitalinterview.model.SavingRules;
+import com.example.qapitalinterview.model.SavingsGoal;
+import com.example.qapitalinterview.model.SavingsRule;
 import com.example.qapitalinterview.view.IGoalDetailsView;
+
+import java.util.List;
 
 import rx.Observer;
 import rx.Subscription;
@@ -68,5 +73,20 @@ public class GoalDetailsPresenter implements IGoalDetailsPresenter {
                 view.showData();
             }
         });
+    }
+
+    @Override
+    public void onUpdateModel(SavingsGoal goal) {
+
+    }
+
+    @Override
+    public void onUpdateModel(List<Feed> feeds) {
+
+    }
+
+    @Override
+    public void onUpdateFilter(List<SavingsRule> rules) {
+
     }
 }
