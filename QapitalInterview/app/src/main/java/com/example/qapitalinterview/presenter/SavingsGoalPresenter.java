@@ -5,12 +5,9 @@ import android.util.Log;
 import com.example.qapitalinterview.App;
 import com.example.qapitalinterview.model.IModel;
 import com.example.qapitalinterview.model.Model;
-import com.example.qapitalinterview.model.SavingsGoal;
 import com.example.qapitalinterview.model.SavingsGoals;
 import com.example.qapitalinterview.view.GoalDetailsActivity;
 import com.example.qapitalinterview.view.IGoalView;
-
-import java.util.List;
 
 import rx.Observer;
 import rx.Subscription;
@@ -20,7 +17,7 @@ import rx.subscriptions.Subscriptions;
  * Created by John on 10/30/2016.
  */
 
-public class SavingsGoalPresenter implements GoalsPresenter {
+public class SavingsGoalPresenter implements IGoalsPresenter {
 
     private IModel model;
     private IGoalView view;
@@ -32,8 +29,8 @@ public class SavingsGoalPresenter implements GoalsPresenter {
     }
 
     @Override
-    public void onItemClick() {
-        GoalDetailsActivity.start(view.getContext());
+    public void onItemClick(int goalId) {
+        GoalDetailsActivity.start(view.getContext(), goalId);
     }
 
     @Override

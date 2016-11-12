@@ -26,8 +26,8 @@ public interface IApi {
     @GET("savingsgoals/{id}/feed")
     Observable<Feeds> getSavingsGoalFeed(@Path("id") int id);
 
-    @GET("savingsrule")
-    Observable<SavingRules> getSavingsRule();
+    @GET("savingsrules")
+    Observable<SavingRules> getSavingsRules();
 
     @GET("user/{id}")
     Observable<User> getUser(@Path("id") int id);

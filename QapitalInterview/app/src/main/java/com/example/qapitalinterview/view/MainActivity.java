@@ -13,11 +13,11 @@ import android.widget.Toast;
 
 import com.example.qapitalinterview.App;
 import com.example.qapitalinterview.R;
+import com.example.qapitalinterview.converters.CursorToSavingGoalsConverter;
 import com.example.qapitalinterview.model.SavingsGoal;
-import com.example.qapitalinterview.presenter.GoalsPresenter;
+import com.example.qapitalinterview.presenter.IGoalsPresenter;
 import com.example.qapitalinterview.presenter.SavingsGoalPresenter;
 import com.example.qapitalinterview.storage.Contract;
-import com.example.qapitalinterview.storage.GoalRepo;
 import com.example.qapitalinterview.view.adapters.GoalsAdapter;
 
 import java.util.List;
@@ -26,29 +26,23 @@ public class MainActivity extends BaseActivity implements IGoalView, LoaderManag
 
     private RecyclerView recyclerView;
     private GoalsAdapter adapter;
-    private GoalsPresenter presenter;
+    private IGoalsPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        init();
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(llm);
-        adapter = new GoalsAdapter();
+        adapter = new GoalsAdapter(this);
         recyclerView.setAdapter(adapter);
 
         presenter = new SavingsGoalPresenter(this);
         presenter.onRefreshData();
-//
-//        GoalRepo goalRepo = new GoalRepo(this);
-//        goalRepo.open();
-//        Cursor cursor = goalRepo.getAllGoals();
-//        int count = cursor.getCount();
-//        goalRepo.close();
-
 
         getSupportLoaderManager().initLoader(0, null, this);
     }
@@ -95,6 +89,9 @@ public class MainActivity extends BaseActivity implements IGoalView, LoaderManag
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data == null) return;
         Log.d(App.TAG, "Data: " + data.getCount());
+        CursorToSavingGoalsConverter converter = new CursorToSavingGoalsConverter();
+        List<SavingsGoal> goals = converter.convert(data);
+        adapter.setModel(goals);
     }
 
     @Override

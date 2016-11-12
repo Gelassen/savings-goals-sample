@@ -16,7 +16,9 @@
             android:scaleType="centerCrop"
             android:src="@mipmap/ic_launcher"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/goal_image_height" />
+            android:layout_height="@dimen/goal_image_height"
+            android:transitionName="@string/transition_goal_image"
+            />
 
         <TextView
             android:id="@+id/goal_name"

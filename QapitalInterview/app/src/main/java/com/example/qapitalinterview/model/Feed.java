@@ -26,6 +26,7 @@ public class Feed {
     @SerializedName("savingsRuleId")
     @Expose
     private Integer savingsRuleId;
+    private int goalId;
 
     /**
      *
@@ -153,4 +154,11 @@ public class Feed {
         this.savingsRuleId = savingsRuleId;
     }
 
+    public void setGoalId(int goalId) {
+        this.goalId = goalId;
+    }
+
+    public int getGoalId() {
+        return goalId;
+    }
 }

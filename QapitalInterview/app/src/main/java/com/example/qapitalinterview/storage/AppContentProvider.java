@@ -163,9 +163,13 @@ public class AppContentProvider extends ContentProvider {
     }
 
     private final static int MATCH_GOAL = 0x00000001;
+    private final static int MATCH_FEED = 0x00000002;
+    private final static int MATCH_SAVINGS = 0x00000003;
 
     static {
         match(Contract.GoalTable.class, MATCH_GOAL);
+        match(Contract.FeedTable.class, MATCH_FEED);
+        match(Contract.SavingsRuleTable.class, MATCH_SAVINGS);
     }
 
 }

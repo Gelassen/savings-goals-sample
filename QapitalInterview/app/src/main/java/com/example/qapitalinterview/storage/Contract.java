@@ -67,4 +67,22 @@ public class Contract {
         public final static String NAME = "NAME";
     }
 
+    public final static class FeedTable extends Table {
+        public final static String ID = _ID;
+        final static String _SQL_ID_TYPE = _PK_AUTOINCREMENT;
+        public final static String FEED_ID = "FEED_ID";
+        public final static String TYPE = "TYPE";
+        public final static String TIMESTAMP = "TIMESTAMP";
+        public final static String MESSAGE = "MESSAGE";
+        public final static String AMOUNT = "AMOUNT";
+        public final static String USER_ID = "USER_ID";
+        public final static String GOALD_ID = "GOAL_ID";
+    }
+
+    public final static class SavingsRuleTable extends Table {
+        public final static String ID = _ID;
+        final static String _SQL_ID_TYPE = _PK_AUTOINCREMENT;
+        public final static String TYPE = "TYPE";
+        public final static String AMOUNT = "AMOUNT";
+    }
 }
