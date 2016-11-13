@@ -6,6 +6,8 @@ import android.text.Html;
 import android.text.Spanned;
 
 import com.example.qapitalinterview.R;
+import com.example.qapitalinterview.entity.FilterManager;
+import com.example.qapitalinterview.model.SavingsRule;
 
 public class GoalDetailsInteractor {
 
@@ -66,5 +68,9 @@ public class GoalDetailsInteractor {
 
     public String getBalance(double amount) {
         return String.format("$%.2f", amount);
+    }
+
+    public SavingsRule getAllItemsFilter() {
+        return new FilterManager().getAllItemsFilter();
     }
 }

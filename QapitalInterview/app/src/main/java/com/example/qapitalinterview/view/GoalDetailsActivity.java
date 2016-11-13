@@ -24,6 +24,7 @@ import com.example.qapitalinterview.R;
 import com.example.qapitalinterview.converters.CursorToFeedsConverter;
 import com.example.qapitalinterview.converters.CursorToSavingGoalsConverter;
 import com.example.qapitalinterview.converters.CursorToSavingsRuleConverter;
+import com.example.qapitalinterview.entity.FilterManager;
 import com.example.qapitalinterview.model.Feed;
 import com.example.qapitalinterview.model.Model;
 import com.example.qapitalinterview.model.SavingsGoal;
@@ -48,6 +49,7 @@ public class GoalDetailsActivity extends BaseActivity implements
 
     private static final String EXTRA_GOAL_ID = "EXTRA_GOAL_ID";
     private static final String EXTRA_FILTER_ID = "EXTRA_FILTER_ID";
+    private static final String EXTRA_FILTER_APPLIED = "EXTRA_FILTER_APPLIED";
 
     private static final int TOKEN_GOAL = 0;
     private static final int TOKEN_GOAL_DETAILS = 1;
@@ -131,8 +133,13 @@ public class GoalDetailsActivity extends BaseActivity implements
                 break;
             case TOKEN_GOAL_DETAILS:
                 uri = Contract.contentUri(Contract.FeedTable.class);
-                selection = Contract.FeedTable.GOALD_ID + "=?" + " AND " + Contract.FeedTable.SAVINGS_RULE_ID + "=?";
-                selectionArgs = new String[] { goalId, args.getString(EXTRA_FILTER_ID) };
+                boolean isFilterApplied = args.getBoolean(EXTRA_FILTER_APPLIED);
+                selection = isFilterApplied ?
+                        Contract.FeedTable.GOALD_ID + "=?" + " AND " + Contract.FeedTable.SAVINGS_RULE_ID + "=?"
+                        : Contract.FeedTable.GOALD_ID + "=?" ;
+                selectionArgs = isFilterApplied ?
+                        new String[] { goalId, args.getString(EXTRA_FILTER_ID) }
+                        : new String[] { goalId };
                 break;
             case TOKEN_GOAL_SAVINGS_RULES:
                 uri = Contract.contentUri(Contract.SavingsRuleTable.class);
@@ -175,13 +182,14 @@ public class GoalDetailsActivity extends BaseActivity implements
     }
 
     @Override
-    public void onFilterClick(String type) {
-        Log.d(App.TAG, "onFilterClick: " + type);
+    public void onFilterClick(SavingsRule filter) {
+        Log.d(App.TAG, "onFilterClick: " + filter.getType());
         final String goalId = String.valueOf(getIntent().getIntExtra(EXTRA_GOAL_ID, 0));
 
         Bundle bundle = new Bundle();
-        bundle.putString(EXTRA_FILTER_ID, type);
+        bundle.putString(EXTRA_FILTER_ID, String.valueOf(filter.getId()));
         bundle.putString(EXTRA_GOAL_ID, goalId);
+        bundle.putBoolean(EXTRA_FILTER_APPLIED, new FilterManager().isFilterApplied(filter));
         getSupportLoaderManager().restartLoader(TOKEN_GOAL_DETAILS, bundle, this);
     }
 }

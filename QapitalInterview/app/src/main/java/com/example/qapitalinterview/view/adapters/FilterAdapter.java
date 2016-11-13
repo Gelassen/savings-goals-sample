@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.qapitalinterview.R;
+import com.example.qapitalinterview.interactor.GoalDetailsInteractor;
 import com.example.qapitalinterview.model.SavingsRule;
 
 import java.util.ArrayList;
@@ -16,19 +17,23 @@ import java.util.List;
 public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder> {
 
     public interface Listener {
-        void onFilterClick(final String type);
+        void onFilterClick(final SavingsRule savingsRule);
     }
+
+    private GoalDetailsInteractor goalDetailsInteractor;
 
     private List<SavingsRule> dataSource = new ArrayList<>();
     private Listener listener;
 
     public FilterAdapter(Listener listener) {
         this.listener = listener;
+        this.goalDetailsInteractor = new GoalDetailsInteractor();
     }
 
     public void updateModel(List<SavingsRule> model) {
         this.dataSource.clear();
         this.dataSource.addAll(model);
+        this.dataSource.add(0, goalDetailsInteractor.getAllItemsFilter());
         notifyDataSetChanged();
     }
 
@@ -48,7 +53,7 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder
             public void onClick(View v) {
                 final String filterType = String.valueOf(rule.getId());
                 if (listener != null) {
-                    listener.onFilterClick(filterType);
+                    listener.onFilterClick(rule);
                 }
             }
         });
