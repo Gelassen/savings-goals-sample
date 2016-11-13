@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -15,7 +14,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,9 +43,11 @@ import java.util.List;
 
 public class GoalDetailsActivity extends BaseActivity implements
         IGoalDetailsView,
+        FilterAdapter.Listener,
         LoaderManager.LoaderCallbacks<Cursor>  {
 
     private static final String EXTRA_GOAL_ID = "EXTRA_GOAL_ID";
+    private static final String EXTRA_FILTER_ID = "EXTRA_FILTER_ID";
 
     private static final int TOKEN_GOAL = 0;
     private static final int TOKEN_GOAL_DETAILS = 1;
@@ -87,7 +87,7 @@ public class GoalDetailsActivity extends BaseActivity implements
         totalAchivements = (TextView) findViewById(R.id.total_achievements);
 
         listRules = (RecyclerView) findViewById(R.id.list_filter);
-        listRules.setAdapter(new FilterAdapter());
+        listRules.setAdapter(new FilterAdapter(this));
         listRules.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         listAchievements = (RecyclerView) findViewById(R.id.list_achievements);
@@ -98,7 +98,7 @@ public class GoalDetailsActivity extends BaseActivity implements
         presenter.onUploadDetails(getIntent().getIntExtra(EXTRA_GOAL_ID, 0));
 
         getSupportLoaderManager().restartLoader(TOKEN_GOAL, Bundle.EMPTY, this);
-        getSupportLoaderManager().restartLoader(TOKEN_GOAL_DETAILS, Bundle.EMPTY, this);
+//        getSupportLoaderManager().restartLoader(TOKEN_GOAL_DETAILS, Bundle.EMPTY, this);
         getSupportLoaderManager().restartLoader(TOKEN_GOAL_SAVINGS_RULES, Bundle.EMPTY, this);
     }
 
@@ -131,8 +131,8 @@ public class GoalDetailsActivity extends BaseActivity implements
                 break;
             case TOKEN_GOAL_DETAILS:
                 uri = Contract.contentUri(Contract.FeedTable.class);
-                selection = Contract.FeedTable.GOALD_ID + "=?";
-                selectionArgs = new String[] { goalId };
+                selection = Contract.FeedTable.GOALD_ID + "=?" + " AND " + Contract.FeedTable.SAVINGS_RULE_ID + "=?";
+                selectionArgs = new String[] { goalId, args.getString(EXTRA_FILTER_ID) };
                 break;
             case TOKEN_GOAL_SAVINGS_RULES:
                 uri = Contract.contentUri(Contract.SavingsRuleTable.class);
@@ -172,5 +172,16 @@ public class GoalDetailsActivity extends BaseActivity implements
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         // no op
+    }
+
+    @Override
+    public void onFilterClick(String type) {
+        Log.d(App.TAG, "onFilterClick: " + type);
+        final String goalId = String.valueOf(getIntent().getIntExtra(EXTRA_GOAL_ID, 0));
+
+        Bundle bundle = new Bundle();
+        bundle.putString(EXTRA_FILTER_ID, type);
+        bundle.putString(EXTRA_GOAL_ID, goalId);
+        getSupportLoaderManager().restartLoader(TOKEN_GOAL_DETAILS, bundle, this);
     }
 }

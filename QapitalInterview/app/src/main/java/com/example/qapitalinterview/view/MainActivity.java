@@ -22,7 +22,9 @@ import com.example.qapitalinterview.view.adapters.GoalsAdapter;
 
 import java.util.List;
 
-public class MainActivity extends BaseActivity implements IGoalView, LoaderManager.LoaderCallbacks<Cursor> {
+public class MainActivity extends BaseActivity implements
+        IGoalView,
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     private RecyclerView recyclerView;
     private GoalsAdapter adapter;

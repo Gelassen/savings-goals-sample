@@ -37,6 +37,7 @@ public class FeedsToContentValuesConverter implements IConverter<List<Feed>, Con
             contentValues.put(Contract.FeedTable.TYPE, feed.getType());
             contentValues.put(Contract.FeedTable.USER_ID, feed.getUserId());
             contentValues.put(Contract.FeedTable.GOALD_ID, goalId);
+            contentValues.put(Contract.FeedTable.SAVINGS_RULE_ID, feed.getSavingsRuleId());
 
             result[idx] = contentValues;
         }

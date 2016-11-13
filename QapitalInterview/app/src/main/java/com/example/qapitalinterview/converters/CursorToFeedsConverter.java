@@ -20,6 +20,7 @@ public class CursorToFeedsConverter implements IConverter<Cursor, List<Feed>> {
     private int amountIdx = NOT_INIT;
     private int userIdIdx = NOT_INIT;
     private int goalIdx = NOT_INIT;
+    private int savingRuleIdIdx = NOT_INIT;
 
     @Override
     public List<Feed> convert(Cursor cursor) {
@@ -37,7 +38,7 @@ public class CursorToFeedsConverter implements IConverter<Cursor, List<Feed>> {
             feed.setAmount(cursor.getDouble(amountIdx));
             feed.setUserId(cursor.getInt(userIdIdx));
             feed.setGoalId(cursor.getInt(goalIdx));
-
+            feed.setSavingsRuleId(cursor.getInt(savingRuleIdIdx));
             result.add(feed);
         }
 
@@ -54,5 +55,6 @@ public class CursorToFeedsConverter implements IConverter<Cursor, List<Feed>> {
         amountIdx = cursor.getColumnIndex(Contract.FeedTable.AMOUNT);
         userIdIdx = cursor.getColumnIndex(Contract.FeedTable.USER_ID);
         goalIdx = cursor.getColumnIndex(Contract.FeedTable.GOALD_ID);
+        savingRuleIdIdx = cursor.getColumnIndex(Contract.FeedTable.SAVINGS_RULE_ID);
     }
 }

@@ -12,4 +12,10 @@
     <!-- details screen -->
     <dimen name="achievements_padding">16dp</dimen>
     <dimen name="achievements_height">88dp</dimen>
+    <dimen name="goal_details_margin_end">42dp</dimen>
+    <dimen name="goal_details_margin_start">72dp</dimen>
+    <dimen name="goal_details_image_height">300dp</dimen>
+    <dimen name="goal_details_rules_title_width">56dp</dimen>
+    <dimen name="goal_details_rule_item">40dp</dimen>
+    <dimen name="goal_details_item_width">4dp</dimen>
 </resources>

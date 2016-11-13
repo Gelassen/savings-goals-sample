@@ -77,6 +77,7 @@ public class Contract {
         public final static String AMOUNT = "AMOUNT";
         public final static String USER_ID = "USER_ID";
         public final static String GOALD_ID = "GOAL_ID";
+        public final static String SAVINGS_RULE_ID = "SAVINGS_RULE_ID";
     }
 
     public final static class SavingsRuleTable extends Table {

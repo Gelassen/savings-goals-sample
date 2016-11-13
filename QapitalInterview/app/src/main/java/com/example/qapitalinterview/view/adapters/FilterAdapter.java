@@ -5,9 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.qapitalinterview.R;
-import com.example.qapitalinterview.model.Feeds;
 import com.example.qapitalinterview.model.SavingsRule;
 
 import java.util.ArrayList;
@@ -15,10 +15,19 @@ import java.util.List;
 
 public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder> {
 
+    public interface Listener {
+        void onFilterClick(final String type);
+    }
+
     private List<SavingsRule> dataSource = new ArrayList<>();
+    private Listener listener;
+
+    public FilterAdapter(Listener listener) {
+        this.listener = listener;
+    }
 
     public void updateModel(List<SavingsRule> model) {
-        this.dataSource.clear();;
+        this.dataSource.clear();
         this.dataSource.addAll(model);
         notifyDataSetChanged();
     }
@@ -32,24 +41,30 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        final SavingsRule rule = dataSource.get(position);
+        holder.item.setText(String.valueOf(rule.getType().charAt(0)).toUpperCase());
+        holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO complete me
+                final String filterType = String.valueOf(rule.getId());
+                if (listener != null) {
+                    listener.onFilterClick(filterType);
+                }
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return dataSource.size();
     }
 
     /*package*/ class ViewHolder extends RecyclerView.ViewHolder {
-        private View view;
+        private TextView item;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            item = (TextView) itemView.findViewById(R.id.filter_item);
         }
     }
 }
