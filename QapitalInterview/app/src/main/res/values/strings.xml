@@ -10,5 +10,9 @@
     <string name="elapsed_hours"> hours</string>
     <string name="elapsed_minutes"> minutes</string>
     <string name="elapsed_seconds"> seconds</string>
+    <string name="action_edit">Edit</string>
+
+    <!-- placeholder -->
+    <string name="placeholder_edit_screen">Complete edit screen</string>
 
 </resources>

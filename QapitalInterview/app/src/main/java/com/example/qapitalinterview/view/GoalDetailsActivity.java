@@ -14,11 +14,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.qapitalinterview.App;
 import com.example.qapitalinterview.R;
 import com.example.qapitalinterview.converters.CursorToFeedsConverter;
@@ -82,9 +86,6 @@ public class GoalDetailsActivity extends BaseActivity implements
         init();
         setContentView(R.layout.activity_goal_details);
 
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         goalImageView = (ImageView) findViewById(R.id.goal_image);
         totalAchivements = (TextView) findViewById(R.id.total_achievements);
 
@@ -105,8 +106,34 @@ public class GoalDetailsActivity extends BaseActivity implements
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = new MenuInflater(this);
+        menuInflater.inflate(R.menu.menu_goal_details, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_edit:
+                Toast.makeText(this, R.string.placeholder_edit_screen, Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void showData() {
         getSupportLoaderManager().restartLoader(0, Bundle.EMPTY, this);
+    }
+
+    @Override
+    public void showGoal(SavingsGoal goal) {
+        Glide.with(this)
+                .load(goal.getGoalImageURL())
+                .error(R.mipmap.ic_launcher)
+                .into(goalImageView);
     }
 
     @Override
@@ -159,6 +186,7 @@ public class GoalDetailsActivity extends BaseActivity implements
             case TOKEN_GOAL:
                 CursorToSavingGoalsConverter converter = new CursorToSavingGoalsConverter();
                 List<SavingsGoal> goals = converter.convert(data);
+                showGoal(goals.get(0));
                 break;
             case TOKEN_GOAL_DETAILS:
                 Log.d("DETAILS", "Details: " + data.getCount());

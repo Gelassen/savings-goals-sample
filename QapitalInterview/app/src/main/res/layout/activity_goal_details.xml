@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
+
+
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
@@ -25,33 +27,79 @@
             app:expandedTitleMarginStart="@dimen/goal_details_margin_start"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-            <ImageView
-                android:id="@+id/goal_image"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/goal_details_image_height"
-                android:background="@mipmap/ic_launcher"
-                android:fitsSystemWindows="true"
-                android:scaleType="centerCrop"
-                android:transitionName="@string/transition_goal_image"
-                app:layout_collapseMode="parallax"
-                />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_collapseMode="pin"
+                >
+
+                <ImageView
+                    android:id="@+id/goal_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/goal_details_image_height"
+                    android:background="@mipmap/ic_launcher"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop"
+                    android:transitionName="@string/transition_goal_image"
+                    />
+
+                <TextView
+                    android:id="@+id/goal_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:layout_above="@+id/goal_status"
+                    android:text="title"
+                    />
+
+                <TextView
+                    android:id="@+id/goal_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textColor="#FFFFFF"
+                    android:layout_above="@+id/goal_progress"
+                    android:layout_alignTop="@+id/goal_progress"
+                    android:text="1000 from 3000 USD"
+                    />
+
+                <ProgressBar
+                    android:id="@+id/goal_progress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:progress="30"
+                    android:max="100"
+                    />
+
+            </RelativeLayout>
+
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_collapseMode="pin"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+
+    </android.support.v7.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:elevation="16dp"
         >
 
         <LinearLayout
@@ -80,6 +128,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="#f2f2f2"
             >
 
             <TextView
@@ -101,5 +150,13 @@
 
     </LinearLayout>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@android:drawable/ic_dialog_email"
+        />
 
 </android.support.design.widget.CoordinatorLayout>
