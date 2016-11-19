@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.qapitalinterview.R;
+import com.example.qapitalinterview.interactor.GoalDetailsInteractor;
 import com.example.qapitalinterview.model.SavingsGoal;
 import com.example.qapitalinterview.view.GoalDetailsActivity;
 
@@ -23,9 +24,11 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
 
     private List<SavingsGoal> model;
     private Activity activity;
+    private GoalDetailsInteractor interactor;
 
     public GoalsAdapter(Activity activity) {
         this.activity = activity;
+        this.interactor = new GoalDetailsInteractor();
     }
 
     public void setModel(List<SavingsGoal> model) {
@@ -43,7 +46,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         final SavingsGoal goal = model.get(position);
         holder.title.setText(goal.getName());
-        holder.price.setText(String.valueOf(goal.getCurrentBalance()));
+        holder.price.setText(interactor.getTargetBalance(holder.itemView.getContext(), goal));
         Glide.with(holder.itemView.getContext())
                 .load(goal.getGoalImageURL())
                 .error(R.mipmap.ic_launcher)

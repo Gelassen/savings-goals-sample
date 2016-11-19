@@ -2,9 +2,15 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#00abbe</color>
 
     <color name="color_title">#FFFFFF</color>
     <color name="color_price">#000000</color>
     <color name="color_price_bcg">#FFFFFF</color>
+    <color name="goal_text">#FFFFFF</color>
+    <color name="goal_achievements">#f2f2f2</color>
+
+    <!-- Filter -->
+    <color name="filter_unselected">#FFFFFF</color>
+    <color name="filter_selected">#00abbe</color>
 </resources>

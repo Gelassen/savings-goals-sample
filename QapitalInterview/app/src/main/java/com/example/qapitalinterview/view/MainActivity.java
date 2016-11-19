@@ -34,7 +34,7 @@ public class MainActivity extends BaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        init();
+        init(false);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 

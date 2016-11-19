@@ -12,13 +12,13 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +29,7 @@ import com.example.qapitalinterview.converters.CursorToFeedsConverter;
 import com.example.qapitalinterview.converters.CursorToSavingGoalsConverter;
 import com.example.qapitalinterview.converters.CursorToSavingsRuleConverter;
 import com.example.qapitalinterview.entity.FilterManager;
+import com.example.qapitalinterview.interactor.GoalDetailsInteractor;
 import com.example.qapitalinterview.model.Feed;
 import com.example.qapitalinterview.model.Model;
 import com.example.qapitalinterview.model.SavingsGoal;
@@ -58,6 +59,7 @@ public class GoalDetailsActivity extends BaseActivity implements
     private static final int TOKEN_GOAL = 0;
     private static final int TOKEN_GOAL_DETAILS = 1;
     private static final int TOKEN_GOAL_SAVINGS_RULES = 2;
+    private static final int TOKEN_GOAL_SUM_OF_ITEMS = 3;
 
     public static void start(Context context, int goalId) {
         Intent intent = new Intent(context, GoalDetailsActivity.class);
@@ -66,6 +68,7 @@ public class GoalDetailsActivity extends BaseActivity implements
     }
 
     private IGoalDetailsPresenter presenter;
+    private GoalDetailsInteractor interactor;
 
     @Deprecated
     public static void startTransition(Activity context, View transitView, String transitName) {
@@ -78,16 +81,26 @@ public class GoalDetailsActivity extends BaseActivity implements
     private ImageView goalImageView;
     private RecyclerView listRules;
     private RecyclerView listAchievements;
-    private TextView totalAchivements;
+
+    private TextView totalAchievements;
+    private TextView goalTitle;
+    private TextView goalBalance;
+    private ProgressBar goalProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init();
         setContentView(R.layout.activity_goal_details);
+        init(true);
+
+        getSupportActionBar().setTitle("");
 
         goalImageView = (ImageView) findViewById(R.id.goal_image);
-        totalAchivements = (TextView) findViewById(R.id.total_achievements);
+        totalAchievements = (TextView) findViewById(R.id.total_achievements);
+
+        goalTitle = (TextView) findViewById(R.id.goal_progress_title);
+        goalBalance = (TextView) findViewById(R.id.goal_progress_cash);
+        goalProgress = (ProgressBar) findViewById(R.id.goal_progress);
 
         listRules = (RecyclerView) findViewById(R.id.list_filter);
         listRules.setAdapter(new FilterAdapter(this));
@@ -100,9 +113,12 @@ public class GoalDetailsActivity extends BaseActivity implements
         presenter = new GoalDetailsPresenter(new Model(this), this);
         presenter.onUploadDetails(getIntent().getIntExtra(EXTRA_GOAL_ID, 0));
 
+        interactor = new GoalDetailsInteractor();
+
         getSupportLoaderManager().restartLoader(TOKEN_GOAL, Bundle.EMPTY, this);
 //        getSupportLoaderManager().restartLoader(TOKEN_GOAL_DETAILS, Bundle.EMPTY, this);
         getSupportLoaderManager().restartLoader(TOKEN_GOAL_SAVINGS_RULES, Bundle.EMPTY, this);
+        getSupportLoaderManager().restartLoader(TOKEN_GOAL_SUM_OF_ITEMS, Bundle.EMPTY, this);
     }
 
     @Override
@@ -134,6 +150,10 @@ public class GoalDetailsActivity extends BaseActivity implements
                 .load(goal.getGoalImageURL())
                 .error(R.mipmap.ic_launcher)
                 .into(goalImageView);
+
+        goalTitle.setText(goal.getName());
+        goalBalance.setText(interactor.getExtendedTargetBalance(this, goal));
+        goalProgress.setProgress(interactor.getGoalProgress(goal));
     }
 
     @Override
@@ -173,6 +193,11 @@ public class GoalDetailsActivity extends BaseActivity implements
                 selection = null;
                 selectionArgs = null;
                 break;
+            case TOKEN_GOAL_SUM_OF_ITEMS:
+                uri = Contract.contentUri(Contract.FeedTable.class);
+                selection = Contract.FeedTable.GOALD_ID + "=?" + " AND " + Contract.FeedTable.TIMESTAMP + ">=?";
+                selectionArgs = new String[] { goalId, interactor.getStartOfTheWeek() };
+                break;
             default:
                 throw new IllegalArgumentException("Do you add support of this loader? " + id);
         }
@@ -189,7 +214,6 @@ public class GoalDetailsActivity extends BaseActivity implements
                 showGoal(goals.get(0));
                 break;
             case TOKEN_GOAL_DETAILS:
-                Log.d("DETAILS", "Details: " + data.getCount());
                 CursorToFeedsConverter feedsConverter = new CursorToFeedsConverter();
                 List<Feed> feeds = feedsConverter.convert(data);
                 AchievementsAdapter achievementsAdapter = (AchievementsAdapter) listAchievements.getAdapter();
@@ -200,6 +224,11 @@ public class GoalDetailsActivity extends BaseActivity implements
                 List<SavingsRule> rules = ruleConverter.convert(data);
                 FilterAdapter adapter = (FilterAdapter) listRules.getAdapter();
                 adapter.updateModel(rules);
+                break;
+            case TOKEN_GOAL_SUM_OF_ITEMS:
+                feedsConverter = new CursorToFeedsConverter();
+                feeds = feedsConverter.convert(data);
+                totalAchievements.setText(interactor.getAchievements(feeds));
                 break;
         }
     }

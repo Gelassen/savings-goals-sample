@@ -4,10 +4,23 @@ package com.example.qapitalinterview.interactor;
 import android.content.Context;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.Log;
 
+import com.example.qapitalinterview.App;
 import com.example.qapitalinterview.R;
+import com.example.qapitalinterview.entity.ElapsedTime;
+import com.example.qapitalinterview.entity.ElapsedTimeFormatter;
 import com.example.qapitalinterview.entity.FilterManager;
+import com.example.qapitalinterview.model.Feed;
+import com.example.qapitalinterview.model.SavingsGoal;
 import com.example.qapitalinterview.model.SavingsRule;
+
+import org.joda.time.Period;
+
+import java.util.Calendar;
+import java.util.Formatter;
+import java.util.List;
+import java.util.Locale;
 
 public class GoalDetailsInteractor {
 
@@ -15,55 +28,26 @@ public class GoalDetailsInteractor {
         return Html.fromHtml(text);
     }
 
-    public String getElapsedTime(long time, Context context) {
-        final long current = System.currentTimeMillis();
-        final long elapsed = current - time;
+    public String getElapsedTime(final long time, Context context) {
+        Period period = new Period(time, System.currentTimeMillis());
+        ElapsedTimeFormatter formatter = new ElapsedTimeFormatter(period);
+        return formatter.prepareTime(context);
+    }
 
-        long seconds = elapsed / 1000;
-        long minutes = seconds / 60;
-        long hours = minutes / 60;
-        long days = hours / 24;
-        long monthes = days / 30;// ~ aproximate numbers in month
-        long years = monthes / 12;
+    public String getTargetBalance(Context context, final SavingsGoal goal) {
+        return getFormattedBalance(context, goal, "$%s of %s");
+    }
 
-        StringBuilder result = new StringBuilder();
-        if (years != 0) {
-            result.append(years);
-            result.append(" ");
-            result.append(context.getString(R.string.elapsed_years));
-            result.append(" ");
-        }
-        if (monthes != 0) {
-            result.append(monthes);
-            result.append(" ");
-            result.append(context.getString(R.string.elapsed_months));
-            result.append(" ");
-        }
-        if (days != 0) {
-            result.append(days);
-            result.append(" ");
-            result.append(context.getString(R.string.elapsed_days));
-            result.append(" ");
-        }
-        if (hours != 0) {
-            result.append(hours);
-            result.append(" ");
-            result.append(context.getString(R.string.elapsed_hours));
-            result.append(" ");
-        }
-        if (minutes != 0) {
-            result.append(minutes);
-            result.append(" ");
-            result.append(context.getString(R.string.elapsed_minutes));
-            result.append(" ");
-        }
-        result.append(seconds);
-        result.append(" ");
-        result.append(context.getString(R.string.elapsed_seconds));
-        result.append(" ");
-        result.append("ago");
+    public String getExtendedTargetBalance(Context context, final SavingsGoal goal) {
+        return getFormattedBalance(context, goal, "$%s of $%s");
+    }
 
-        return result.toString();
+    private String getFormattedBalance(Context context, final SavingsGoal goal, final String formmater) {
+        final String notSpecifiedTargetFormat = "$%s of %s";
+        boolean isTargetNotSpecified = goal.getTargetAmount() == 0f;
+        String target = isTargetNotSpecified ? context.getString(R.string.placeholder_unknown_target)
+                : String.valueOf(goal.getTargetAmount().intValue());
+        return String.format(isTargetNotSpecified ? notSpecifiedTargetFormat : formmater, goal.getCurrentBalance(), target);
     }
 
     public String getBalance(double amount) {
@@ -72,5 +56,36 @@ public class GoalDetailsInteractor {
 
     public SavingsRule getAllItemsFilter() {
         return new FilterManager().getAllItemsFilter();
+    }
+
+    public int getGoalProgress(SavingsGoal goal) {
+        double progress = ((double) goal.getCurrentBalance() / (double) goal.getTargetAmount());
+        return (int) ((progress) * 100);
+    }
+
+    public String getStartOfTheWeek() {
+        Calendar calendar = Calendar.getInstance(Locale.getDefault());
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.clear(Calendar.MINUTE);
+        calendar.clear(Calendar.SECOND);
+        calendar.clear(Calendar.MILLISECOND);
+        calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
+        return String.valueOf(calendar.getTimeInMillis());
+    }
+
+    public String getAchievements(List<Feed> feeds) {
+        int balance = 0;
+        for (Feed feed : feeds) {
+            balance += feed.getAmount();
+        }
+        return String.format("This week : %s", balance);
+    }
+
+    public List<Boolean> updateFilterModel(final int selectedFilterPos, List<Boolean> filterModel) {
+        for (int idx = 0; idx < filterModel.size(); idx++) {
+            boolean selected = idx == selectedFilterPos;
+            filterModel.set(idx, selected);
+        }
+        return filterModel;
     }
 }

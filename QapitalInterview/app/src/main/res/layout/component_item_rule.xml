@@ -5,17 +5,19 @@
     android:layout_height="@dimen/goal_details_rule_item"
     android:layout_gravity="center_vertical"
     android:gravity="center_vertical"
-    android:layout_margin="@dimen/goal_details_item_width"
-
+    android:layout_marginTop="@dimen/goal_details_item_width"
+    android:layout_marginBottom="@dimen/goal_details_item_width"
+    android:layout_marginLeft="@dimen/goal_details_item_margin"
+    android:layout_marginRight="@dimen/goal_details_item_margin"
     >
 
     <TextView
         android:id="@+id/filter_item"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/shape_circle"
+        android:background="@drawable/drawable_filter"
         android:gravity="center"
-
+        android:layout_gravity="center_vertical"
         android:clickable="true"
         />
 
