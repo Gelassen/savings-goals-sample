@@ -44,7 +44,7 @@ public class GoalDetailsInteractor {
 
     private String getFormattedBalance(Context context, final SavingsGoal goal, final String formmater) {
         final String notSpecifiedTargetFormat = "$%s of %s";
-        boolean isTargetNotSpecified = goal.getTargetAmount() == 0f;
+        boolean isTargetNotSpecified = goal.getTargetAmount() == null || goal.getTargetAmount() == 0f;
         String target = isTargetNotSpecified ? context.getString(R.string.placeholder_unknown_target)
                 : String.valueOf(goal.getTargetAmount().intValue());
         return String.format(isTargetNotSpecified ? notSpecifiedTargetFormat : formmater, goal.getCurrentBalance(), target);

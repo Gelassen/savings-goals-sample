@@ -1,148 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:fitsSystemWindows="true"
-    >
+<!--<layout-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--&gt;-->
 
-    <RelativeLayout
+    <!--<data>-->
+        <!--<variable-->
+            <!--name="goal"-->
+            <!--type="com.example.qapitalinterview.model.BindedSavingsGoal" />-->
+    <!--</data>-->
+
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_collapseMode="pin"
+        android:fitsSystemWindows="true"
         >
-
-        <ImageView
-            android:id="@+id/goal_image"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/goal_details_image_height"
-            android:background="@mipmap/ic_launcher"
-            android:fitsSystemWindows="true"
-            android:scaleType="centerCrop"
-            android:transitionName="@string/transition_goal_image"
-            />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/goal_details_image_height"
-            android:padding="@dimen/goal_rules_padding"
-            >
-
-            <TextView
-                android:id="@+id/goal_progress_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/goal_text"
-                android:layout_above="@+id/goal_progress_cash"
-                android:textSize="@dimen/goal_title_size"
-                android:textStyle="bold"
-                android:text="Dream house"
-                />
-
-            <TextView
-                android:id="@+id/goal_progress_cash"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/goal_text"
-                android:layout_above="@+id/goal_progress"
-                android:textSize="@dimen/goal_title_size"
-                android:text="1000 from 2000 USD"
-                />
-
-            <ProgressBar
-                android:id="@+id/goal_progress"
-                style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:max="100"
-                android:progress="30"
-                />
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_marginTop="@dimen/goal_details_image_height"
-            android:elevation="16dp"
+            app:layout_collapseMode="pin"
             >
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/goal_image"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:orientation="horizontal"
+                android:layout_height="@dimen/goal_details_image_height"
+                android:background="@mipmap/ic_launcher"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                android:transitionName="@string/transition_goal_image"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/goal_details_image_height"
+                android:padding="@dimen/goal_rules_padding"
                 >
 
                 <TextView
-                    android:layout_width="@dimen/goal_details_rules_title_width"
-                    android:layout_height="match_parent"
-                    android:maxLines="2"
-                    android:gravity="left|center_vertical"
-                    android:paddingLeft="@dimen/goal_rules_padding"
-                    android:paddingRight="@dimen/goal_rules_padding"
-                    android:text="@string/goal_rules_title"
+                    android:id="@+id/goal_progress_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/goal_text"
+                    android:layout_above="@+id/goal_progress_cash"
+                    android:textSize="@dimen/goal_title_size"
+                    android:textStyle="bold"
+                    android:text="Dream house"
                     />
-                
+
+                <TextView
+                    android:id="@+id/goal_progress_cash"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/goal_text"
+                    android:layout_above="@+id/goal_progress"
+                    android:textSize="@dimen/goal_title_size"
+                    android:text="1000 from 2000 USD"
+                    />
+
+                <ProgressBar
+                    android:id="@+id/goal_progress"
+                    style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:max="100"
+                    android:progress="30"
+                    />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:layout_marginTop="@dimen/goal_details_image_height"
+                android:elevation="16dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="@dimen/goal_details_rules_title_width"
+                        android:layout_height="match_parent"
+                        android:maxLines="2"
+                        android:gravity="left|center_vertical"
+                        android:paddingLeft="@dimen/goal_rules_padding"
+                        android:paddingRight="@dimen/goal_rules_padding"
+                        android:text="@string/goal_rules_title"
+                        />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/list_filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        />
+
+                </LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@color/goal_achievements"
+                    >
+
+                    <TextView
+                        android:id="@+id/total_achievements"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:text="This week : 12 USD"
+                        />
+
+                </FrameLayout>
+
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/list_filter"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/list_achievements"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
                     />
 
             </LinearLayout>
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/goal_achievements"
-                >
-
-                <TextView
-                    android:id="@+id/total_achievements"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:text="This week : 12 USD"
-                    />
-
-            </FrameLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/list_achievements"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
-
-        </LinearLayout>
-
-    </RelativeLayout>
+        </RelativeLayout>
 
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        app:srcCompat="@drawable/ic_plus"
-        />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            app:srcCompat="@drawable/ic_plus"
+            />
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_collapseMode="pin"
-        />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_collapseMode="pin"
+            />
 
-</FrameLayout>
+    </FrameLayout>
+<!--</layout>-->
+

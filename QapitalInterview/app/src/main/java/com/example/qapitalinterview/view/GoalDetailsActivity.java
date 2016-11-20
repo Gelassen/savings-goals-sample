@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -25,9 +26,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.qapitalinterview.App;
 import com.example.qapitalinterview.R;
-import com.example.qapitalinterview.converters.CursorToFeedsConverter;
-import com.example.qapitalinterview.converters.CursorToSavingGoalsConverter;
-import com.example.qapitalinterview.converters.CursorToSavingsRuleConverter;
 import com.example.qapitalinterview.entity.FilterManager;
 import com.example.qapitalinterview.interactor.GoalDetailsInteractor;
 import com.example.qapitalinterview.model.Feed;
@@ -36,7 +34,6 @@ import com.example.qapitalinterview.model.SavingsGoal;
 import com.example.qapitalinterview.model.SavingsRule;
 import com.example.qapitalinterview.presenter.GoalDetailsPresenter;
 import com.example.qapitalinterview.presenter.IGoalDetailsPresenter;
-import com.example.qapitalinterview.storage.Contract;
 import com.example.qapitalinterview.view.adapters.AchievementsAdapter;
 import com.example.qapitalinterview.view.adapters.FilterAdapter;
 
@@ -49,17 +46,11 @@ import java.util.List;
 
 public class GoalDetailsActivity extends BaseActivity implements
         IGoalDetailsView,
-        FilterAdapter.Listener,
-        LoaderManager.LoaderCallbacks<Cursor>  {
+        FilterAdapter.Listener {
 
-    private static final String EXTRA_GOAL_ID = "EXTRA_GOAL_ID";
-    private static final String EXTRA_FILTER_ID = "EXTRA_FILTER_ID";
-    private static final String EXTRA_FILTER_APPLIED = "EXTRA_FILTER_APPLIED";
-
-    private static final int TOKEN_GOAL = 0;
-    private static final int TOKEN_GOAL_DETAILS = 1;
-    private static final int TOKEN_GOAL_SAVINGS_RULES = 2;
-    private static final int TOKEN_GOAL_SUM_OF_ITEMS = 3;
+    public static final String EXTRA_GOAL_ID = "EXTRA_GOAL_ID";
+    public static final String EXTRA_FILTER_ID = "EXTRA_FILTER_ID";
+    public static final String EXTRA_FILTER_APPLIED = "EXTRA_FILTER_APPLIED";
 
     public static void start(Context context, int goalId) {
         Intent intent = new Intent(context, GoalDetailsActivity.class);
@@ -87,13 +78,20 @@ public class GoalDetailsActivity extends BaseActivity implements
     private TextView goalBalance;
     private ProgressBar goalProgress;
 
+//    private ActivityGoalDetailsBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal_details);
+//        binding = DataBindingUtil.setContentView(this, R.layout.activity_goal_details);
+//        binding.setGoal(new BindedSavingsGoal());
         init(true);
 
+        // --debug and --stacktrace
+
         getSupportActionBar().setTitle("");
+        interactor = new GoalDetailsInteractor();
 
         goalImageView = (ImageView) findViewById(R.id.goal_image);
         totalAchievements = (TextView) findViewById(R.id.total_achievements);
@@ -110,16 +108,13 @@ public class GoalDetailsActivity extends BaseActivity implements
         listAchievements.setAdapter(new AchievementsAdapter());
         listAchievements.setLayoutManager(new LinearLayoutManager(this));
 
-        presenter = new GoalDetailsPresenter(new Model(this), this);
+        presenter = new GoalDetailsPresenter(this, new Model(this), this);
         presenter.onUploadDetails(getIntent().getIntExtra(EXTRA_GOAL_ID, 0));
         presenter.onUploadData(getIntent().getIntExtra(EXTRA_GOAL_ID, 0));
 
-        interactor = new GoalDetailsInteractor();
-
-        getSupportLoaderManager().restartLoader(TOKEN_GOAL, Bundle.EMPTY, this);
-//        getSupportLoaderManager().restartLoader(TOKEN_GOAL_DETAILS, Bundle.EMPTY, this);
-        getSupportLoaderManager().restartLoader(TOKEN_GOAL_SAVINGS_RULES, Bundle.EMPTY, this);
-        getSupportLoaderManager().restartLoader(TOKEN_GOAL_SUM_OF_ITEMS, Bundle.EMPTY, this);
+        Bundle args = new Bundle();
+        args.putString(EXTRA_GOAL_ID, String.valueOf(getIntent().getIntExtra(EXTRA_GOAL_ID, 0)));
+        presenter.onCheckCachedData(getSupportLoaderManager(), args);
     }
 
     @Override
@@ -138,11 +133,6 @@ public class GoalDetailsActivity extends BaseActivity implements
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void showData() {
-        getSupportLoaderManager().restartLoader(0, Bundle.EMPTY, this);
     }
 
     @Override
@@ -185,78 +175,6 @@ public class GoalDetailsActivity extends BaseActivity implements
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Uri uri;
-        String selection;
-        String[] selectionArgs;
-        final String goalId = String.valueOf(getIntent().getIntExtra(EXTRA_GOAL_ID, 0));
-        switch (id) {
-            case TOKEN_GOAL:
-                uri = Contract.contentUri(Contract.GoalTable.class);
-                selection = Contract.GoalTable.ID + "=?";
-                selectionArgs = new String[] { goalId };
-                break;
-            case TOKEN_GOAL_DETAILS:
-                uri = Contract.contentUri(Contract.FeedTable.class);
-                boolean isFilterApplied = args.getBoolean(EXTRA_FILTER_APPLIED);
-                selection = isFilterApplied ?
-                        Contract.FeedTable.GOALD_ID + "=?" + " AND " + Contract.FeedTable.SAVINGS_RULE_ID + "=?"
-                        : Contract.FeedTable.GOALD_ID + "=?" ;
-                selectionArgs = isFilterApplied ?
-                        new String[] { goalId, args.getString(EXTRA_FILTER_ID) }
-                        : new String[] { goalId };
-                break;
-            case TOKEN_GOAL_SAVINGS_RULES:
-                uri = Contract.contentUri(Contract.SavingsRuleTable.class);
-                selection = null;
-                selectionArgs = null;
-                break;
-            case TOKEN_GOAL_SUM_OF_ITEMS:
-                uri = Contract.contentUri(Contract.FeedTable.class);
-                selection = Contract.FeedTable.GOALD_ID + "=?" + " AND " + Contract.FeedTable.TIMESTAMP + ">=?";
-                selectionArgs = new String[] { goalId, interactor.getStartOfTheWeek() };
-                break;
-            default:
-                throw new IllegalArgumentException("Do you add support of this loader? " + id);
-        }
-        return new CursorLoader(this, uri, null, selection, selectionArgs, null);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        Log.d(App.TAG, "Data " + (data == null ? "cursor is null" : data.getCount()));
-        switch (loader.getId()) {
-            case TOKEN_GOAL:
-                CursorToSavingGoalsConverter converter = new CursorToSavingGoalsConverter();
-                List<SavingsGoal> goals = converter.convert(data);
-                showGoal(goals.get(0));
-                break;
-            case TOKEN_GOAL_DETAILS:
-                CursorToFeedsConverter feedsConverter = new CursorToFeedsConverter();
-                List<Feed> feeds = feedsConverter.convert(data);
-                AchievementsAdapter achievementsAdapter = (AchievementsAdapter) listAchievements.getAdapter();
-                achievementsAdapter.update(feeds);
-                break;
-            case TOKEN_GOAL_SAVINGS_RULES:
-                CursorToSavingsRuleConverter ruleConverter = new CursorToSavingsRuleConverter();
-                List<SavingsRule> rules = ruleConverter.convert(data);
-                FilterAdapter adapter = (FilterAdapter) listRules.getAdapter();
-                adapter.updateModel(rules);
-                break;
-            case TOKEN_GOAL_SUM_OF_ITEMS:
-                feedsConverter = new CursorToFeedsConverter();
-                feeds = feedsConverter.convert(data);
-                totalAchievements.setText(interactor.getAchievements(feeds));
-                break;
-        }
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        // no op
-    }
-
-    @Override
     public void onFilterClick(SavingsRule filter) {
         Log.d(App.TAG, "onFilterClick: " + filter.getType());
         final String goalId = String.valueOf(getIntent().getIntExtra(EXTRA_GOAL_ID, 0));
@@ -265,6 +183,6 @@ public class GoalDetailsActivity extends BaseActivity implements
         bundle.putString(EXTRA_FILTER_ID, String.valueOf(filter.getId()));
         bundle.putString(EXTRA_GOAL_ID, goalId);
         bundle.putBoolean(EXTRA_FILTER_APPLIED, new FilterManager().isFilterApplied(filter));
-        getSupportLoaderManager().restartLoader(TOKEN_GOAL_DETAILS, bundle, this);
+        presenter.onApplyFilter(getSupportLoaderManager(), bundle);
     }
 }

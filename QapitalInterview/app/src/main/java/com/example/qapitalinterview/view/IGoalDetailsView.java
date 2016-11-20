@@ -10,7 +10,6 @@ import com.example.qapitalinterview.model.SavingsRule;
 import java.util.List;
 
 public interface IGoalDetailsView {
-    void showData();
     void showGoal(SavingsGoal goal);
     void showFilters(List<SavingsRule> rules);
     void showAchievements(List<Feed> feeds);

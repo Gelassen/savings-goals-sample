@@ -47,7 +47,12 @@ public class MainActivity extends BaseActivity implements IGoalView {
 
     @Override
     public void showData(final List<SavingsGoal> data) {
-        adapter.setModel(data);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapter.setModel(data);
+            }
+        });
     }
 
     @Override

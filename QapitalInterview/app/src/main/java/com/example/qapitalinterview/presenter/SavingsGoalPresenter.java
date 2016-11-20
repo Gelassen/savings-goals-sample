@@ -55,7 +55,7 @@ public class SavingsGoalPresenter implements IGoalsPresenter {
 
             @Override
             public void onError(Throwable e) {
-                Log.e(App.TAG, "Failed tp get saving goals", e);
+                Log.e(App.TAG, "Failed to get saving goals", e);
                 view.showError();
             }
 
