@@ -65,6 +65,7 @@ public class Contract {
         public final static String CURRENT_BALANCE = "CURRENT_BALANCE";
         public final static String STATUS = "STATUS";
         public final static String NAME = "NAME";
+        public final static String TIMESTAMP = "TIMESTAMP";
     }
 
     public final static class FeedTable extends Table {

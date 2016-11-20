@@ -13,4 +13,5 @@ public interface IGoalDetailsPresenter {
     void onUpdateModel(SavingsGoal goal);
     void onUpdateModel(List<Feed> feeds);
     void onUpdateFilter(List<SavingsRule> rules);
+    void onUploadData(int goalId);
 }

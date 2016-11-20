@@ -11,6 +11,7 @@ import com.example.qapitalinterview.view.IGoalView;
 
 import rx.Observer;
 import rx.Subscription;
+import rx.schedulers.Timestamped;
 import rx.subscriptions.Subscriptions;
 
 /**
@@ -46,7 +47,7 @@ public class SavingsGoalPresenter implements IGoalsPresenter {
             subscription.unsubscribe();
         }
 
-        model.cacheSavingGoals().subscribe(new Observer<SavingsGoals>() {
+        model.getSavingGoals().subscribe(new Observer<Timestamped<SavingsGoals>>() {
             @Override
             public void onCompleted() {
                 // no op
@@ -54,36 +55,18 @@ public class SavingsGoalPresenter implements IGoalsPresenter {
 
             @Override
             public void onError(Throwable e) {
-                Log.e(App.TAG, "onError", e);
+                Log.e(App.TAG, "Failed tp get saving goals", e);
+                view.showError();
             }
 
             @Override
-            public void onNext(SavingsGoals savingsGoals) {
-                view.showData();
-                Log.d(App.TAG, "onNext: " + savingsGoals.getSavingsGoals().size());
+            public void onNext(Timestamped<SavingsGoals> savingsGoals) {
+                if (savingsGoals != null && !savingsGoals.getValue().getSavingsGoals().isEmpty()) {
+                    view.showData(savingsGoals.getValue().getSavingsGoals());
+                } else {
+                    view.showError();
+                }
             }
         });
-
-//        model.getSavingGoals().subscribe(new Observer<SavingsGoals>() {
-//            @Override
-//            public void onCompleted() {
-//                // no op
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//                Log.e(App.TAG, "Failed tp get saving goals", e);
-//                view.showError();
-//            }
-//
-//            @Override
-//            public void onNext(SavingsGoals savingsGoals) {
-//                if (savingsGoals != null && !savingsGoals.getSavingsGoals().isEmpty()) {
-//                    view.showData(savingsGoals.getSavingsGoals());
-//                } else {
-//                    view.showError();
-//                }
-//            }
-//        });
     }
 }

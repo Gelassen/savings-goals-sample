@@ -82,4 +82,33 @@ public class ObservableFeed {
             }
         });
     }
+
+    public Observable<Feeds> getWeeklyFeedsForGoal(final int goalId, final long timestamp) {
+        return Observable.create(new Observable.OnSubscribe<Feeds>() {
+
+            @Override
+            public void call(Subscriber<? super Feeds> subscriber) {
+                subscriber.onStart();
+
+                Uri uri = Contract.contentUri(Contract.FeedTable.class);
+                String selection = Contract.FeedTable.GOALD_ID + "=?" + " AND " + Contract.FeedTable.TIMESTAMP + ">=?";
+                String[] selectionArgs = new String[] { String.valueOf(goalId), String.valueOf(timestamp) };
+
+                // prepare cursor
+                Cursor cursor = cr.query(uri, null, selection, selectionArgs, null);
+                CursorToFeedsConverter converter = new CursorToFeedsConverter();
+                List<Feed> feeds = converter.convert(cursor);
+                if (cursor!= null) {
+                    cursor.close();
+                }
+
+                // prepare result
+                Feeds result = new Feeds();
+                result.setFeed(feeds);
+
+                subscriber.onNext(result);
+                subscriber.onCompleted();
+            }
+        });
+    }
 }

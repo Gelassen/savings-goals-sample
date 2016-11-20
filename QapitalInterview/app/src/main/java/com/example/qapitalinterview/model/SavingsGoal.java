@@ -34,6 +34,7 @@ public class SavingsGoal {
     @Expose
     private Object connectedUsers;
 
+    private long timestamp;
     /**
      *
      * @return
@@ -196,4 +197,12 @@ public class SavingsGoal {
         this.connectedUsers = connectedUsers;
     }
 
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
 }

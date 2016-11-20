@@ -37,6 +37,10 @@ public class GoalDetailsPresenter implements IGoalDetailsPresenter {
     }
 
     @Override
+    public void onUploadData(final int goalId) {
+    }
+
+    @Override
     public void onUploadDetails(int goalId) {
         model.cacheUserFeeds(goalId).subscribe(new Observer<Feeds>() {
             @Override
@@ -89,4 +93,5 @@ public class GoalDetailsPresenter implements IGoalDetailsPresenter {
     public void onUpdateFilter(List<SavingsRule> rules) {
 
     }
+
 }

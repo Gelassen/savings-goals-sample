@@ -11,6 +11,8 @@ import java.util.List;
 
 public class SavingGoalsToContentValuesConverter implements IConverter<List<SavingsGoal>, ContentValues[]> {
 
+    private long timestamp;
+
     @Override
     public ContentValues[] convert(List<SavingsGoal> from) {
         if (from == null) return new ContentValues[0];
@@ -32,6 +34,11 @@ public class SavingGoalsToContentValuesConverter implements IConverter<List<Savi
         result.put(Contract.GoalTable.CURRENT_BALANCE, data.getCurrentBalance());
         result.put(Contract.GoalTable.GOAL_IMAGE_URL, data.getGoalImageURL());
         result.put(Contract.GoalTable.ID, data.getId());
+        result.put(Contract.GoalTable.TIMESTAMP, timestamp);
         return result;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 }

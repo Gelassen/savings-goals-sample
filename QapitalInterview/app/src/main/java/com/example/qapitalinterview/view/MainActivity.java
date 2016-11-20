@@ -22,9 +22,7 @@ import com.example.qapitalinterview.view.adapters.GoalsAdapter;
 
 import java.util.List;
 
-public class MainActivity extends BaseActivity implements
-        IGoalView,
-        LoaderManager.LoaderCallbacks<Cursor> {
+public class MainActivity extends BaseActivity implements IGoalView {
 
     private RecyclerView recyclerView;
     private GoalsAdapter adapter;
@@ -45,23 +43,11 @@ public class MainActivity extends BaseActivity implements
 
         presenter = new SavingsGoalPresenter(this);
         presenter.onRefreshData();
-
-        getSupportLoaderManager().initLoader(0, null, this);
-    }
-
-    @Override
-    public void showData() {
-        getSupportLoaderManager().restartLoader(0, null, this);
     }
 
     @Override
     public void showData(final List<SavingsGoal> data) {
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                adapter.setModel(data);
-//            }
-//        });
+        adapter.setModel(data);
     }
 
     @Override
@@ -82,22 +68,4 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(this, Contract.contentUri(Contract.GoalTable.class), null, null, null, null);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (data == null) return;
-        Log.d(App.TAG, "Data: " + data.getCount());
-        CursorToSavingGoalsConverter converter = new CursorToSavingGoalsConverter();
-        List<SavingsGoal> goals = converter.convert(data);
-        adapter.setModel(goals);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
 }

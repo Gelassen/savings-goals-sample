@@ -112,6 +112,7 @@ public class GoalDetailsActivity extends BaseActivity implements
 
         presenter = new GoalDetailsPresenter(new Model(this), this);
         presenter.onUploadDetails(getIntent().getIntExtra(EXTRA_GOAL_ID, 0));
+        presenter.onUploadData(getIntent().getIntExtra(EXTRA_GOAL_ID, 0));
 
         interactor = new GoalDetailsInteractor();
 
@@ -154,6 +155,23 @@ public class GoalDetailsActivity extends BaseActivity implements
         goalTitle.setText(goal.getName());
         goalBalance.setText(interactor.getExtendedTargetBalance(this, goal));
         goalProgress.setProgress(interactor.getGoalProgress(goal));
+    }
+
+    @Override
+    public void showFilters(List<SavingsRule> rules) {
+        FilterAdapter adapter = (FilterAdapter) listRules.getAdapter();
+        adapter.updateModel(rules);
+    }
+
+    @Override
+    public void showAchievements(List<Feed> feeds) {
+        AchievementsAdapter achievementsAdapter = (AchievementsAdapter) listAchievements.getAdapter();
+        achievementsAdapter.update(feeds);
+    }
+
+    @Override
+    public void showWeeklyProgress(String formattedValue) {
+        totalAchievements.setText(formattedValue);
     }
 
     @Override

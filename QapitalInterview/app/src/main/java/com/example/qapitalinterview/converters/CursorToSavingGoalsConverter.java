@@ -23,6 +23,7 @@ public class CursorToSavingGoalsConverter implements IConverter<Cursor, List<Sav
     private int statusIdx = NOT_INITIALIZED;
     private int targetAmountIdx = NOT_INITIALIZED;
     private int userIdIdx = NOT_INITIALIZED;
+    private int timestampIdx = NOT_INITIALIZED;
 
     @Override
     public List<SavingsGoal> convert(Cursor from) {
@@ -41,6 +42,7 @@ public class CursorToSavingGoalsConverter implements IConverter<Cursor, List<Sav
             savingsGoal.setUserId(from.getInt(userIdIdx));
             savingsGoal.setCurrentBalance(from.getInt(currentBalanceIdx));
             savingsGoal.setGoalImageURL(from.getString(goalImageUrlIdx));
+            savingsGoal.setTimestamp(from.getLong(timestampIdx));
 
             result.add(savingsGoal);
         }
@@ -57,5 +59,6 @@ public class CursorToSavingGoalsConverter implements IConverter<Cursor, List<Sav
         statusIdx = cursor.getColumnIndex(Contract.GoalTable.STATUS);
         targetAmountIdx = cursor.getColumnIndex(Contract.GoalTable.TARGET_AMOUNT);
         userIdIdx = cursor.getColumnIndex(Contract.GoalTable.USER_ID);
+        timestampIdx = cursor.getColumnIndex(Contract.GoalTable.TIMESTAMP);
     }
 }
