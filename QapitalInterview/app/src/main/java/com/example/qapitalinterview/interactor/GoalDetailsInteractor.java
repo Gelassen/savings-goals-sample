@@ -28,25 +28,29 @@ public class GoalDetailsInteractor {
         return Html.fromHtml(text);
     }
 
-    public String getElapsedTime(final long time, Context context) {
-        Period period = new Period(time, System.currentTimeMillis());
+    public String getElapsedTime(final long time, final long currentTime, Context context) {
+        Period period = new Period(time, currentTime);
         ElapsedTimeFormatter formatter = new ElapsedTimeFormatter(period);
         return formatter.prepareTime(context);
     }
 
+    public String getElapsedTime(final long time, Context context) {
+        return getElapsedTime(time, System.currentTimeMillis(), context);
+    }
+
     public String getTargetBalance(Context context, final SavingsGoal goal) {
-        return getFormattedBalance(context, goal, "$%s of %s");
+        return getFormattedBalance(context, goal, "$%s of %.1f");
     }
 
     public String getExtendedTargetBalance(Context context, final SavingsGoal goal) {
-        return getFormattedBalance(context, goal, "$%s of $%s");
+        return getFormattedBalance(context, goal, "$%s of $%.1f");
     }
 
     private String getFormattedBalance(Context context, final SavingsGoal goal, final String formmater) {
         final String notSpecifiedTargetFormat = "$%s of %s";
         boolean isTargetNotSpecified = goal.getTargetAmount() == null || goal.getTargetAmount() == 0f;
         String target = isTargetNotSpecified ? context.getString(R.string.placeholder_unknown_target)
-                : String.valueOf(goal.getTargetAmount().intValue());
+                : String.valueOf(goal.getTargetAmount().doubleValue());
         return String.format(isTargetNotSpecified ? notSpecifiedTargetFormat : formmater, goal.getCurrentBalance(), target);
     }
 
@@ -74,11 +78,11 @@ public class GoalDetailsInteractor {
     }
 
     public String getAchievements(List<Feed> feeds) {
-        int balance = 0;
+        Double balance = 0d;
         for (Feed feed : feeds) {
             balance += feed.getAmount();
         }
-        return String.format("This week : %s", balance);
+        return String.format("This week : %.1f", balance);
     }
 
     public List<Boolean> updateFilterModel(final int selectedFilterPos, List<Boolean> filterModel) {

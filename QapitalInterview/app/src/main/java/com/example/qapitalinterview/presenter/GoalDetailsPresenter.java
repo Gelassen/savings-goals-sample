@@ -62,10 +62,6 @@ public class GoalDetailsPresenter implements IGoalDetailsPresenter, LoaderManage
     }
 
     @Override
-    public void onUploadData(final int goalId) {
-    }
-
-    @Override
     public void onCheckCachedData(LoaderManager manager, Bundle args) {
         manager.restartLoader(TOKEN_GOAL, args, this);
         manager.restartLoader(TOKEN_GOAL_SAVINGS_RULES, args, this);

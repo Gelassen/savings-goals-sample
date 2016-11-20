@@ -13,7 +13,6 @@ import java.util.List;
 public interface IGoalDetailsPresenter {
     void onStop();
     void onUploadDetails(final int goalId);
-    void onUploadData(int goalId);
     void onCheckCachedData(LoaderManager manager, Bundle args);
     void onApplyFilter(LoaderManager manager, Bundle args);
 }

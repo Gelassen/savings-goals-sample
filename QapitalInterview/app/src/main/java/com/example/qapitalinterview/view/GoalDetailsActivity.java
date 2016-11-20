@@ -3,14 +3,10 @@ package com.example.qapitalinterview.view;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -28,6 +24,7 @@ import com.example.qapitalinterview.App;
 import com.example.qapitalinterview.R;
 import com.example.qapitalinterview.entity.FilterManager;
 import com.example.qapitalinterview.interactor.GoalDetailsInteractor;
+import com.example.qapitalinterview.model.BindedSavingsGoal;
 import com.example.qapitalinterview.model.Feed;
 import com.example.qapitalinterview.model.Model;
 import com.example.qapitalinterview.model.SavingsGoal;
@@ -78,17 +75,15 @@ public class GoalDetailsActivity extends BaseActivity implements
     private TextView goalBalance;
     private ProgressBar goalProgress;
 
-//    private ActivityGoalDetailsBinding binding;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal_details);
-//        binding = DataBindingUtil.setContentView(this, R.layout.activity_goal_details);
+
+//        ViewDataBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_goal_details);
+//        binding.set
 //        binding.setGoal(new BindedSavingsGoal());
         init(true);
-
-        // --debug and --stacktrace
 
         getSupportActionBar().setTitle("");
         interactor = new GoalDetailsInteractor();
@@ -110,7 +105,6 @@ public class GoalDetailsActivity extends BaseActivity implements
 
         presenter = new GoalDetailsPresenter(this, new Model(this), this);
         presenter.onUploadDetails(getIntent().getIntExtra(EXTRA_GOAL_ID, 0));
-        presenter.onUploadData(getIntent().getIntExtra(EXTRA_GOAL_ID, 0));
 
         Bundle args = new Bundle();
         args.putString(EXTRA_GOAL_ID, String.valueOf(getIntent().getIntExtra(EXTRA_GOAL_ID, 0)));

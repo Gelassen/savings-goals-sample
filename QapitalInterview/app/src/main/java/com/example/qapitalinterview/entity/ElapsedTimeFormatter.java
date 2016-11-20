@@ -2,6 +2,7 @@ package com.example.qapitalinterview.entity;
 
 
 import android.content.Context;
+import android.content.res.Resources;
 
 import com.example.qapitalinterview.R;
 
@@ -33,48 +34,28 @@ public class ElapsedTimeFormatter {
     }
 
     private String getFormatForYears(Context context) {
+        Resources res = context.getResources();
         StringBuilder result = new StringBuilder();
-        result.append(period.getYears());
+        result.append(res.getQuantityString(R.plurals.elapsed_years, period.getYears(), period.getYears()));
         result.append(" ");
-        result.append(context.getString(R.string.elapsed_years));
-        result.append(" ");
-
-        result.append(period.getMonths());
-        result.append(" ");
-        result.append(context.getString(R.string.elapsed_months));
+        result.append(res.getQuantityString(R.plurals.elapsed_months, period.getMonths(), period.getMonths()));
         return result.toString();
     }
 
     private String getFormatForMonths(Context context) {
-        StringBuilder result = new StringBuilder();
-        result.append(period.getMonths());
-        result.append(" ");
-        result.append(context.getString(R.string.elapsed_months));
-        return result.toString();
+        return context.getResources().getQuantityString(R.plurals.elapsed_months, period.getMonths(), period.getMonths());
     }
 
     private String getFormatForDays(Context context) {
-        StringBuilder result = new StringBuilder();
-        result.append(period.getDays());
-        result.append(" ");
-        result.append(context.getString(R.string.elapsed_days));
-        return result.toString();
+        return context.getResources().getQuantityString(R.plurals.elapsed_days, period.getDays(), period.getDays());
     }
 
     private String getFormatForHours(Context context) {
-        StringBuilder result = new StringBuilder();
-        result.append(period.getHours());
-        result.append(" ");
-        result.append(context.getString(R.string.elapsed_hours));
-        return result.toString();
+        return context.getResources().getQuantityString(R.plurals.elapsed_hours, period.getHours(), period.getHours());
     }
 
     private String getFormatForMinutes(Context context) {
-        StringBuilder result = new StringBuilder();
-        result.append(period.getHours());
-        result.append(" ");
-        result.append(context.getString(R.string.elapsed_hours));
-        return result.toString();
+        return context.getResources().getQuantityString(R.plurals.elapsed_minutes, period.getMinutes(), period.getMinutes());
     }
 
     private boolean isNotEmpty(long value) {
