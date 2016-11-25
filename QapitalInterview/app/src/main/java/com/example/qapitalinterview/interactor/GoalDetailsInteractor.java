@@ -2,13 +2,11 @@ package com.example.qapitalinterview.interactor;
 
 
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 import android.text.Html;
 import android.text.Spanned;
-import android.util.Log;
 
-import com.example.qapitalinterview.App;
 import com.example.qapitalinterview.R;
-import com.example.qapitalinterview.entity.ElapsedTime;
 import com.example.qapitalinterview.entity.ElapsedTimeFormatter;
 import com.example.qapitalinterview.entity.FilterManager;
 import com.example.qapitalinterview.model.Feed;
@@ -18,7 +16,6 @@ import com.example.qapitalinterview.model.SavingsRule;
 import org.joda.time.Period;
 
 import java.util.Calendar;
-import java.util.Formatter;
 import java.util.List;
 import java.util.Locale;
 
@@ -39,23 +36,61 @@ public class GoalDetailsInteractor {
     }
 
     public String getTargetBalance(Context context, final SavingsGoal goal) {
-        return getFormattedBalance(context, goal, "$%s of %.1f");
+        return getFormattedBalance(context, goal, "$%s of %s");
     }
 
     public String getExtendedTargetBalance(Context context, final SavingsGoal goal) {
-        return getFormattedBalance(context, goal, "$%s of $%.1f");
+        return getFormattedBalance(context, goal, "$%s of $%s");
     }
 
     private String getFormattedBalance(Context context, final SavingsGoal goal, final String formmater) {
         final String notSpecifiedTargetFormat = "$%s of %s";
         boolean isTargetNotSpecified = goal.getTargetAmount() == null || goal.getTargetAmount() == 0f;
-        String target = isTargetNotSpecified ? context.getString(R.string.placeholder_unknown_target)
-                : String.valueOf(goal.getTargetAmount().doubleValue());
-        return String.format(isTargetNotSpecified ? notSpecifiedTargetFormat : formmater, goal.getCurrentBalance(), target);
+        final String formatted = String.format(isTargetNotSpecified ? notSpecifiedTargetFormat : formmater,
+                goal.getCurrentBalance(),
+                isTargetNotSpecified ? context.getString(R.string.placeholder_unknown_target) : Math.round(goal.getTargetAmount())
+        );
+
+        return formatted;
+    }
+
+    /**
+     * Traditional string format for case %.2f returns floating point for int float 15 like 15.00.
+     * Pre-format float numbers before applying string format
+     * */
+    @Deprecated
+    private String getPrettyFloat(final Float value) {
+        String doubleFormat = "%.2f";
+        String formattedDouble = String.format(Locale.getDefault(), doubleFormat, value);
+        return getPrettyPrint(formattedDouble);
+    }
+
+    /**
+     * Client supports different representation of numbers with floating points. This method properly chop
+     * floating part when number has been formatted
+     * */
+    @Deprecated
+    private String getPrettyPrint(String input) {
+        String[] tokens = input.split("\\.");
+        String intPart = tokens[0];
+        String floatPart = tokens[1];
+        char[] lastPart = floatPart.toCharArray();
+        boolean isNeedChop = lastPart[0] == '0' && lastPart[1] == '0';
+
+        StringBuilder result = new StringBuilder();
+        result.append(intPart);
+        if (isNeedChop) {
+            // no op
+        } else {
+            result.append(".");
+            result.append(floatPart);
+        }
+
+        return result.toString();
     }
 
     public String getBalance(double amount) {
-        return String.format("$%.2f", amount);
+        return String.format(Locale.getDefault(), "$%.2f", amount);
     }
 
     public SavingsRule getAllItemsFilter() {

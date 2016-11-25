@@ -2,6 +2,7 @@ package com.example.qapitalinterview;
 
 
 import android.database.Cursor;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
@@ -33,6 +34,13 @@ public class TestActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        BindedSavingsGoal goal = new BindedSavingsGoal();
+//        goal.setGoal("The great house");
+//        goal.setBalance("$1000 of $3400");
+
+//        ActivityTestBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_test);
+//        binding.setGoal(goal);
 
         setContentView(R.layout.activity_test);
 
