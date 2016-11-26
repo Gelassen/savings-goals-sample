@@ -21,4 +21,5 @@ public interface IModel {
     Observable<Feeds> cacheUserFeeds(final int goalId);
 
     Observable<SavingRules> cacheSavingsRules();
+
 }

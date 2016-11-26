@@ -16,6 +16,7 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.schedulers.Timestamped;
+import rx.subjects.Subject;
 
 /**
  * Created by John on 10/30/2016.
@@ -51,6 +52,7 @@ public class Model implements IModel{
                                 })
                         )
                 )
+                .onErrorResumeNext(observableGoal.getSavingsGoals())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
