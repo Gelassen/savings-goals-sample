@@ -47,7 +47,7 @@ public class SavingsGoalPresenter implements IGoalsPresenter {
             subscription.unsubscribe();
         }
 
-        model.getSavingGoals().subscribe(new Observer<Timestamped<SavingsGoals>>() {
+        model.getSavingGoals().subscribe(new Observer<SavingsGoals>() {
             @Override
             public void onCompleted() {
                 // no op
@@ -55,14 +55,15 @@ public class SavingsGoalPresenter implements IGoalsPresenter {
 
             @Override
             public void onError(Throwable e) {
-                Log.e(App.TAG, "Failed to get saving goals", e);
-                view.showError();
+                Log.e(App.TAG, "onError: ", e);
             }
 
             @Override
-            public void onNext(Timestamped<SavingsGoals> savingsGoals) {
-                if (savingsGoals != null && !savingsGoals.getValue().getSavingsGoals().isEmpty()) {
-                    view.showData(savingsGoals.getValue().getSavingsGoals());
+            public void onNext(SavingsGoals savingsGoals) {
+                Log.d(App.TAG, "savings goal receive result: " + savingsGoals.getSavingsGoals().size());
+                Log.d(App.TAG, "Show the next item");
+                if (savingsGoals != null && !savingsGoals.getSavingsGoals().isEmpty()) {
+                    view.showData(savingsGoals.getSavingsGoals());
                 } else {
                     view.showError();
                 }

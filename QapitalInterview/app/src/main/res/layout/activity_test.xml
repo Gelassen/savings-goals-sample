@@ -11,6 +11,20 @@
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <Button
+            android:id="@+id/click_me"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Click me"
+            />
+
+        <Button
+            android:id="@+id/click_me_to_clean_cache"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Click me to clean cache"
+            />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list"
             android:layout_width="match_parent"

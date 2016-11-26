@@ -13,12 +13,12 @@ import rx.schedulers.Timestamped;
 
 public interface IModel {
 
-    Observable<Timestamped<SavingsGoals>>  getSavingGoals();
+    Observable<SavingsGoals> getSavingGoals();
 
+    @Deprecated
     Observable<SavingsGoals> cacheSavingGoals();
 
     Observable<Feeds> cacheUserFeeds(final int goalId);
 
     Observable<SavingRules> cacheSavingsRules();
-
 }

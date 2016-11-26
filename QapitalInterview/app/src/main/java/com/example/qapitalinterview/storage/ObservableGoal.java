@@ -81,14 +81,14 @@ public class ObservableGoal {
         return saveAll(System.currentTimeMillis(), data);
     }
 
-    public Observable<Timestamped<SavingsGoals>> getSavingsGoals() {
-        Log.d(App.FLOW, "getSavingsGoals:explicit");
+    public Observable<Timestamped<SavingsGoals>> getTimestampedSavingsGoals() {
+        Log.d(App.FLOW, "getTimestampedSavingsGoals:explicit");
         return Observable.create(new Observable.OnSubscribe<Timestamped<SavingsGoals>>() {
 
             @Override
             public void call(Subscriber<? super Timestamped<SavingsGoals>> subscriber) {
                 subscriber.onStart();
-                Log.d(App.FLOW, "getSavingsGoals:implicit");
+                Log.d(App.FLOW, "getTimestampedSavingsGoals:implicit");
 
                 Uri uri = Contract.contentUri(Contract.GoalTable.class);
                 Cursor cursor = cr.query(uri, null, null, null, null);
@@ -109,6 +109,34 @@ public class ObservableGoal {
             }
         });
     }
+
+    public Observable<SavingsGoals> getSavingsGoals() {
+        Log.d(App.TAG, "getTimestampedSavingsGoals:explicit");
+        return Observable.create(new Observable.OnSubscribe<SavingsGoals>() {
+
+            @Override
+            public void call(Subscriber<? super SavingsGoals> subscriber) {
+                subscriber.onStart();
+                Log.d(App.TAG, "getTimestampedSavingsGoals:implicit");
+
+                Uri uri = Contract.contentUri(Contract.GoalTable.class);
+                Cursor cursor = cr.query(uri, null, null, null, null);
+                CursorToSavingGoalsConverter converter = new CursorToSavingGoalsConverter();
+                List<SavingsGoal> goals = converter.convert(cursor);
+
+                if (cursor != null) {
+                    cursor.close();
+                }
+
+                SavingsGoals savingsGoals = new SavingsGoals();
+                savingsGoals.setSavingsGoals(goals);
+
+                subscriber.onNext(savingsGoals);
+                subscriber.onCompleted();
+            }
+        });
+    }
+
 
     public Observable<SavingsGoal> getSavingsGoal(final int goalId) {
         return Observable.create(new Observable.OnSubscribe<SavingsGoal>() {
