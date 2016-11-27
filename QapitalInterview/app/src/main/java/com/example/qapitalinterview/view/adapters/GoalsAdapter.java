@@ -56,7 +56,13 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GoalDetailsActivity.start(v.getContext(), goal.getId());
+//                GoalDetailsActivity.start(v.getContext(), goal.getId());
+                GoalDetailsActivity.startTransition(
+                        activity,
+                        v.findViewById(R.id.goal_name),
+                        v.getContext().getString(R.string.transition_goal_image),
+                        goal.getId()
+                );
             }
         });
     }

@@ -1,14 +1,17 @@
 package com.example.qapitalinterview.view;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +24,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.qapitalinterview.App;
+import com.example.qapitalinterview.BuildConfig;
 import com.example.qapitalinterview.R;
 import com.example.qapitalinterview.entity.FilterManager;
 import com.example.qapitalinterview.interactor.GoalDetailsInteractor;
@@ -35,6 +39,8 @@ import com.example.qapitalinterview.view.adapters.AchievementsAdapter;
 import com.example.qapitalinterview.view.adapters.FilterAdapter;
 
 import java.util.List;
+
+import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 
 
 /**
@@ -58,12 +64,20 @@ public class GoalDetailsActivity extends BaseActivity implements
     private IGoalDetailsPresenter presenter;
     private GoalDetailsInteractor interactor;
 
-    @Deprecated
-    public static void startTransition(Activity context, View transitView, String transitName) {
-        Intent intent = new Intent(context, GoalDetailsActivity.class);
-        ActivityOptionsCompat options = ActivityOptionsCompat
-                .makeSceneTransitionAnimation(context, transitView, transitName);
-        context.startActivity(intent, options.toBundle());
+    public static void startTransition(Activity context, View transitView, String transitName, int goalId) {
+        boolean isLollipop = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+        if (isLollipop) {
+            Intent intent = new Intent(context, GoalDetailsActivity.class);
+            intent.setFlags(FLAG_ACTIVITY_SINGLE_TOP);
+            intent.putExtra(EXTRA_GOAL_ID, goalId);
+            ActivityOptions.makeSceneTransitionAnimation(context);
+            ActivityOptionsCompat options = ActivityOptionsCompat
+                    .makeSceneTransitionAnimation(context, transitView, transitName);
+            context.startActivity(intent, options.toBundle());
+        } else {
+            start(context, goalId);
+        }
+
     }
 
     private ImageView goalImageView;
@@ -105,6 +119,13 @@ public class GoalDetailsActivity extends BaseActivity implements
 
         presenter = new GoalDetailsPresenter(this, new Model(this), this);
         presenter.onUploadDetails(getIntent().getIntExtra(EXTRA_GOAL_ID, 0));
+
+        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), R.string.placeholder_add_new, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         Bundle args = new Bundle();
         args.putString(EXTRA_GOAL_ID, String.valueOf(getIntent().getIntExtra(EXTRA_GOAL_ID, 0)));

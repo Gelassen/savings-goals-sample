@@ -2,6 +2,7 @@
     <string name="app_name">QapitalInterview</string>
     <string name="error_goals">Some issues happen when app fetch goals</string>
 
+
     <string name="transition_goal_image">goal</string>
 
     <string name="elapsed_years"> years</string>
@@ -16,6 +17,7 @@
     <!-- placeholder -->
     <string name="placeholder_edit_screen">Complete edit screen</string>
     <string name="placeholder_unknown_target">Unknown</string>
+    <string name="placeholder_add_new">Implement \'Add new achievement\' screen</string>
     <string name="goal_rules_title">Your Rules</string>
 
 

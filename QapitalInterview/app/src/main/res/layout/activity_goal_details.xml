@@ -57,6 +57,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/goal_text"
                     android:layout_above="@+id/goal_progress"
+                    android:elevation="2dp"
                     android:textSize="@dimen/goal_title_size"
                     android:text="1000 from 2000 USD"
                     />
@@ -79,13 +80,14 @@
                 android:orientation="vertical"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:layout_marginTop="@dimen/goal_details_image_height"
-                android:elevation="16dp"
                 >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:orientation="horizontal"
+                    android:background="@color/filter_background"
+                    android:elevation="2dp"
                     >
 
                     <TextView
