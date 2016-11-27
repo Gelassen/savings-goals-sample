@@ -51,16 +51,6 @@
                     android:text="Dream house"
                     />
 
-                <TextView
-                    android:id="@+id/goal_progress_cash"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/goal_text"
-                    android:layout_above="@+id/goal_progress"
-                    android:textSize="@dimen/goal_title_size"
-                    android:text="1000 from 2000 USD"
-                    />
-
                 <ProgressBar
                     android:id="@+id/goal_progress"
                     style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
@@ -70,6 +60,17 @@
                     android:max="100"
                     android:progress="30"
                     />
+
+                <TextView
+                    android:id="@+id/goal_progress_cash"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/goal_text"
+                    android:textSize="@dimen/goal_title_size"
+                    android:text="1000 from 2000 USD"
+                    android:layout_above="@+id/goal_progress"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
 
             </RelativeLayout>
 
@@ -96,7 +97,7 @@
                         android:paddingLeft="@dimen/goal_rules_padding"
                         android:paddingRight="@dimen/goal_rules_padding"
                         android:text="@string/goal_rules_title"
-                        />
+                        android:id="@+id/textView" />
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/list_filter"
@@ -119,6 +120,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:layout_gravity="center"
+                        android:elevation="8dp"
                         android:text="This week : 12 USD"
                         />
 

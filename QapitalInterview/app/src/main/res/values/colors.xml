@@ -13,4 +13,5 @@
     <!-- Filter -->
     <color name="filter_unselected">#FFFFFF</color>
     <color name="filter_selected">#00abbe</color>
+    <color name="filter_text">#f2f2f2</color>
 </resources>
