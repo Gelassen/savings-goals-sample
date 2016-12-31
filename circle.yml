@@ -1,0 +1,24 @@
+machine:
+    environment:
+        _JAVA_OPTIONS: "-Xms1024m -Xmx2048m"
+        GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx4096m -XX:+HeapDumpOnOutOfMemoryError"'
+    java:
+        version: oraclejdk8
+        
+dependencies:
+  override:
+    - ./gradlew assembleDebug
+
+test:
+  override:
+    - ./gradlew build
+    - echo no | android create avd -n custom-android22-googleapis -t "android-22" --abi default/armeabi-v7a -c 1024M
+    - android list avd
+    - emulator -avd custom-android22-googleapis -no-audio:
+        background: true
+        parallel: true
+    - circle-android wait-for-boot
+    - fb-adb rcmd screencap -p > $CIRCLE_ARTIFACTS/screen-$(date +"%T").png
+    - adb shell input keyevent 82
+    - cp -r app/build/outputs/apk $CIRCLE_ARTIFACTS
+    - ./gradlew connectedAndroidTest
