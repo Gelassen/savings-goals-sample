@@ -7,7 +7,7 @@ machine:
         
 dependencies:
   override:
-    - echo ls
+    - echo | ls
     - ./gradlew assembleDebug
 
 test:
