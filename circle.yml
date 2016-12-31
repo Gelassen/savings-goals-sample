@@ -7,11 +7,12 @@ machine:
         
 dependencies:
   override:
+    - echo | ls
     - ./gradlew assembleDebug
 
 test:
   override:
-#    - ./gradlew build
+    - ./gradlew build
     - echo no | android create avd -n custom-android22-googleapis -t "android-22" --abi default/armeabi-v7a -c 1024M
     - android list avd
     - emulator -avd custom-android22-googleapis -no-audio:
