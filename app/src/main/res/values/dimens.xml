@@ -24,4 +24,11 @@
     <dimen name="goal_title_size">18sp</dimen>
 
     <dimen name="filter_btn_border">1dp</dimen>
+
+    <!-- test data -->
+    <dimen name="avatar_top_margin">-48dp</dimen>
+    <dimen name="avatar_width_height">96dp</dimen>
+    <dimen name="avatar_small_width_height">32dp</dimen>
+    <dimen name="avatar_small_margin_left">28dp</dimen>
+    <dimen name="avatar_small_margin_top">12dp</dimen>
 </resources>
