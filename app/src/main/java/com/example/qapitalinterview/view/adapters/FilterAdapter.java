@@ -1,6 +1,7 @@
 package com.example.qapitalinterview.view.adapters;
 
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import com.example.qapitalinterview.App;
 import com.example.qapitalinterview.R;
 import com.example.qapitalinterview.interactor.GoalDetailsInteractor;
 import com.example.qapitalinterview.model.SavingsRule;
+import com.example.qapitalinterview.storage.FilterPermStorage;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,32 +28,20 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder
     private GoalDetailsInteractor goalDetailsInteractor;
 
     private List<SavingsRule> dataSource = new ArrayList<>();
-    private List<Boolean> selectedFilter;
+    private FilterPermStorage selectedFilter;
     private Listener listener;
 
-    public FilterAdapter(Listener listener) {
+    public FilterAdapter(Context context, Listener listener) {
         this.listener = listener;
         this.goalDetailsInteractor = new GoalDetailsInteractor();
-        this.selectedFilter = new ArrayList<>();
-    }
-
-    /**
-     * Doesn't keep track of previous selected state, but for current use case (data goes from cache
-     * or from the web but web service returns the same amount of data). Don't want to overcomplicated
-     * it for this task, but want to keep a record this use case has been considered
-     * */
-    public void updateFilterModel(final int modelSize) {
-        this.selectedFilter.clear();
-        for (int idx = 0; idx < modelSize; idx++) {
-            this.selectedFilter.add(false);
-        }
+        this.selectedFilter = new FilterPermStorage(context);
     }
 
     public void updateModel(List<SavingsRule> model) {
         this.dataSource.clear();
         this.dataSource.addAll(model);
         this.dataSource.add(0, goalDetailsInteractor.getAllItemsFilter());
-        updateFilterModel(dataSource.size());
+        selectedFilter.initFilters(dataSource);
         notifyDataSetChanged();
     }
 
@@ -65,12 +55,12 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final SavingsRule rule = dataSource.get(position);
-        holder.itemView.setSelected(selectedFilter.get(holder.getAdapterPosition()));
+        holder.itemView.setSelected(selectedFilter.isApplied(rule.getId()));
         holder.item.setText(String.valueOf(rule.getType().charAt(0)).toUpperCase());
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goalDetailsInteractor.updateFilterModel(holder.getAdapterPosition(), selectedFilter);
+                selectedFilter.changeState(rule.getId(), dataSource);
                 notifyDataSetChanged();
                 if (listener != null) {
                     listener.onFilterClick(rule);

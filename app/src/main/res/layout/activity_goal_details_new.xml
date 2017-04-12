@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<layout-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--&gt;-->
+
+    <!--<data>-->
+        <!--<variable-->
+            <!--name="goal"-->
+            <!--type="com.example.qapitalinterview.model.BindedSavingsGoal" />-->
+    <!--</data>-->
+
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/main_appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            >
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/main.collapsing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                >
+
+                <ImageView
+                    android:id="@+id/goal_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/goal_details_image_height"
+                    android:background="@drawable/london_flat"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop"
+                    android:transitionName="@string/transition_goal_image"
+                    />
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    app:layout_collapseMode="pin"
+                    style="@style/ToolBarWithNavigationBack"
+                    >
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="top"
+                        >
+
+                        <TextView
+                            android:id="@+id/goal_progress_final"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Dream house"
+                            android:layout_marginTop="@dimen/goal_title_final_y"
+                            android:textColor="@color/goal_text"
+                            android:textSize="@dimen/goal_title_font_final"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/goal_progress_cash_final"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/goal_cash_final_y"
+                            android:text="1000 from 2000 USD"
+                            android:textColor="@color/goal_text"
+                            android:textSize="@dimen/goal_cash_font_final"
+                            />
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.Toolbar>
+
+                <Space
+                    android:id="@+id/space"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_gravity="bottom"
+                    android:gravity="center"
+                    android:text="TEST TEST TEST"
+                    android:textColor="#000000"
+                    android:textSize="24sp" />
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+    <!-- use this toolbar just as a movement anchor for really scrolling part of goal -->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_top"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@null"
+        app:layout_anchor="@id/space"
+        app:layout_collapseMode="pin"
+        />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/goal_details_image_height"
+            android:padding="@dimen/goal_rules_padding"
+            app:layout_behavior="com.example.qapitalinterview.profile.GoalDetailsTitleBehaviour"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+            >
+
+        <TextView
+        android:id="@+id/goal_progress_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/goal_text"
+        android:layout_above="@+id/goal_progress_cash"
+        android:textSize="@dimen/goal_title_size"
+        android:textStyle="bold"
+        android:text="Dream house"
+        />
+
+        <TextView
+        android:id="@+id/goal_progress_cash"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/goal_text"
+        android:layout_above="@+id/goal_progress"
+        android:elevation="2dp"
+        android:textSize="@dimen/goal_title_size"
+        android:text="1000 from 2000 USD"
+        />
+
+        <ProgressBar
+        android:id="@+id/goal_progress"
+        style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:max="100"
+        android:progress="30"
+        />
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            >
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/list_achievements"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
+        </LinearLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
+<!--</layout>-->
+

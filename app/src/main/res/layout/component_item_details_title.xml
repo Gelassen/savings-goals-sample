@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/goal_details_image_height"
+    android:padding="@dimen/goal_rules_padding"
+    app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+    >
+
+    <TextView
+        android:id="@+id/goal_progress_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/goal_progress_cash"
+        android:text="Dream house"
+        android:textColor="@color/goal_text"
+        android:textSize="@dimen/goal_title_size"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/goal_progress_cash"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/goal_progress"
+        android:elevation="2dp"
+        android:text="1000 from 2000 USD"
+        android:textColor="@color/goal_text"
+        android:textSize="@dimen/goal_title_size" />
+
+    <ProgressBar
+        android:id="@+id/goal_progress"
+        style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:max="100"
+        android:progress="30" />
+
+</RelativeLayout>

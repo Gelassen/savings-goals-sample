@@ -1,4 +1,6 @@
 package com.example.qapitalinterview.model;
+import android.text.TextUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
@@ -149,7 +151,7 @@ public class SavingsGoal {
      * The name
      */
     public String getName() {
-        return name;
+        return TextUtils.isEmpty(name) ? "" : name;
     }
 
     /**

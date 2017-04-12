@@ -89,8 +89,8 @@ public class GoalDetailsPresenter implements IGoalDetailsPresenter, LoaderManage
 
             @Override
             public void onNext(Feeds feeds) {
-
-//                view.showData();
+                Log.d(App.TAG, "Feeds: " + feeds.getFeed().size());
+                // no op
             }
         });
 

@@ -12,6 +12,7 @@ import com.example.qapitalinterview.entity.FilterManager;
 import com.example.qapitalinterview.model.Feed;
 import com.example.qapitalinterview.model.SavingsGoal;
 import com.example.qapitalinterview.model.SavingsRule;
+import com.example.qapitalinterview.storage.FilterPermStorage;
 
 import org.joda.time.Period;
 
@@ -120,11 +121,4 @@ public class GoalDetailsInteractor {
         return String.format("This week : %.1f", balance);
     }
 
-    public List<Boolean> updateFilterModel(final int selectedFilterPos, List<Boolean> filterModel) {
-        for (int idx = 0; idx < filterModel.size(); idx++) {
-            boolean selected = idx == selectedFilterPos;
-            filterModel.set(idx, selected);
-        }
-        return filterModel;
-    }
 }

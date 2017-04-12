@@ -20,7 +20,7 @@ import java.util.List;
  * Created by John on 10/30/2016.
  */
 
-public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> {
+public class GoalsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<SavingsGoal> model;
     private Activity activity;
@@ -33,17 +33,19 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
 
     public void setModel(List<SavingsGoal> model) {
         this.model = model;
+//        model.set(0, new SavingsGoal()); // add fake item to compensate filter row
         notifyDataSetChanged();
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.component_goal, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+        ViewHolder holder = (ViewHolder) viewHolder;
         final SavingsGoal goal = model.get(position);
         holder.title.setText(goal.getName());
         holder.price.setText(interactor.getTargetBalance(holder.itemView.getContext(), goal));
@@ -56,7 +58,6 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                GoalDetailsActivity.start(v.getContext(), goal.getId());
                 GoalDetailsActivity.startTransition(
                         activity,
                         v.findViewById(R.id.goal_name),
@@ -84,4 +85,5 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
             price = (TextView) view.findViewById(R.id.goal_price);
         }
     }
+
 }

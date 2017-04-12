@@ -4,14 +4,11 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,11 +21,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.qapitalinterview.App;
-import com.example.qapitalinterview.BuildConfig;
 import com.example.qapitalinterview.R;
 import com.example.qapitalinterview.entity.FilterManager;
 import com.example.qapitalinterview.interactor.GoalDetailsInteractor;
-import com.example.qapitalinterview.model.BindedSavingsGoal;
 import com.example.qapitalinterview.model.Feed;
 import com.example.qapitalinterview.model.Model;
 import com.example.qapitalinterview.model.SavingsGoal;
@@ -81,10 +76,8 @@ public class GoalDetailsActivity extends BaseActivity implements
     }
 
     private ImageView goalImageView;
-    private RecyclerView listRules;
     private RecyclerView listAchievements;
 
-    private TextView totalAchievements;
     private TextView goalTitle;
     private TextView goalBalance;
     private ProgressBar goalProgress;
@@ -92,10 +85,9 @@ public class GoalDetailsActivity extends BaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_goal_details);
+        setContentView(R.layout.activity_goal_details_new);
 
-//        ViewDataBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_goal_details);
-//        binding.set
+//        GoalDetailsActivityNewBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_goal_details_new);
 //        binding.setGoal(new BindedSavingsGoal());
         init(true);
 
@@ -103,29 +95,17 @@ public class GoalDetailsActivity extends BaseActivity implements
         interactor = new GoalDetailsInteractor();
 
         goalImageView = (ImageView) findViewById(R.id.goal_image);
-        totalAchievements = (TextView) findViewById(R.id.total_achievements);
 
         goalTitle = (TextView) findViewById(R.id.goal_progress_title);
         goalBalance = (TextView) findViewById(R.id.goal_progress_cash);
         goalProgress = (ProgressBar) findViewById(R.id.goal_progress);
 
-        listRules = (RecyclerView) findViewById(R.id.list_filter);
-        listRules.setAdapter(new FilterAdapter(this));
-        listRules.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-
         listAchievements = (RecyclerView) findViewById(R.id.list_achievements);
-        listAchievements.setAdapter(new AchievementsAdapter());
+        listAchievements.setAdapter(new AchievementsAdapter(this));
         listAchievements.setLayoutManager(new LinearLayoutManager(this));
 
         presenter = new GoalDetailsPresenter(this, new Model(this), this);
         presenter.onUploadDetails(getIntent().getIntExtra(EXTRA_GOAL_ID, 0));
-
-        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(v.getContext(), R.string.placeholder_add_new, Toast.LENGTH_SHORT).show();
-            }
-        });
 
         Bundle args = new Bundle();
         args.putString(EXTRA_GOAL_ID, String.valueOf(getIntent().getIntExtra(EXTRA_GOAL_ID, 0)));
@@ -151,6 +131,13 @@ public class GoalDetailsActivity extends BaseActivity implements
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AchievementsAdapter adapter = (AchievementsAdapter) listAchievements.getAdapter();
+        adapter.onDestroy(this);
+    }
+
+    @Override
     public void showGoal(SavingsGoal goal) {
         Glide.with(this)
                 .load(goal.getGoalImageURL())
@@ -164,19 +151,21 @@ public class GoalDetailsActivity extends BaseActivity implements
 
     @Override
     public void showFilters(List<SavingsRule> rules) {
-        FilterAdapter adapter = (FilterAdapter) listRules.getAdapter();
-        adapter.updateModel(rules);
+        AchievementsAdapter adapter = (AchievementsAdapter) listAchievements.getAdapter();
+        adapter.updateFilters(rules, (LinearLayoutManager) listAchievements.getLayoutManager());
     }
 
     @Override
     public void showAchievements(List<Feed> feeds) {
         AchievementsAdapter achievementsAdapter = (AchievementsAdapter) listAchievements.getAdapter();
-        achievementsAdapter.update(feeds);
+        achievementsAdapter.updateModel(feeds);
     }
 
     @Override
     public void showWeeklyProgress(String formattedValue) {
-        totalAchievements.setText(formattedValue);
+        Log.d(App.TAG, "Total: " + formattedValue);
+        AchievementsAdapter achievementsAdapter = (AchievementsAdapter) listAchievements.getAdapter();
+        achievementsAdapter.updateTotal(formattedValue, (LinearLayoutManager) listAchievements.getLayoutManager());
     }
 
     @Override

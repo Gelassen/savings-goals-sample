@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.qapitalinterview.App;
 import com.example.qapitalinterview.R;
 import com.example.qapitalinterview.converters.CursorToSavingGoalsConverter;
+import com.example.qapitalinterview.entity.Utils;
 import com.example.qapitalinterview.model.SavingsGoal;
 import com.example.qapitalinterview.presenter.IGoalsPresenter;
 import com.example.qapitalinterview.presenter.SavingsGoalPresenter;
@@ -33,6 +34,8 @@ public class MainActivity extends BaseActivity implements IGoalView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init(false);
+
+        Utils.initStatusBarHeight(getWindow());
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 

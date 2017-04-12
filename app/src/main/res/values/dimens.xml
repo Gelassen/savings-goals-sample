@@ -25,6 +25,19 @@
 
     <dimen name="filter_btn_border">1dp</dimen>
 
+    <!-- Text size -->
+    <dimen name="goal_title_font_origin">18sp</dimen>
+    <dimen name="goal_title_font_final">14sp</dimen>
+    <dimen name="goal_cash_font_origin">14sp</dimen>
+    <dimen name="goal_cash_font_final">10sp</dimen>
+
+    <dimen name="goal_title_final_x">72dp</dimen>
+    <dimen name="goal_title_final_y">12dp</dimen>
+    <dimen name="goal_cash_final_x">72dp</dimen>
+    <dimen name="goal_cash_final_y">28dp</dimen>
+    <dimen name="goal_progress_final_x">72dp</dimen>
+    <dimen name="goal_progress_final_y">48dp</dimen>
+
     <!-- test data -->
     <dimen name="avatar_top_margin">-48dp</dimen>
     <dimen name="avatar_width_height">96dp</dimen>

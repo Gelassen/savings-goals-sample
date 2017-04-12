@@ -8,4 +8,5 @@ public class App {
     public static final String TAG = "TAG";
     public static final String FILTER = "FILTER";
     public static final String FLOW = "FLOW";
+    public static final String ISSUE = "ISSUE";
 }

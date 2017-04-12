@@ -48,7 +48,9 @@ public class CustomViewBehaviour extends CoordinatorLayout.Behavior<ImageView> {
 
         child.requestLayout();
 
-        Log.d(App.TAG, "Image position: " + "X: " + child.getX() + " Y: " + child.getY());
+//        Log.d(App.TAG, "Image position: " + "X: " + child.getX() + " Y: " + child.getY());
+
+        Log.d(App.TAG, "Scrolling: " + child.getY());
 
         return true;//super.onDependentViewChanged(parent, child, dependency);
     }
