@@ -60,16 +60,17 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Dream house"
-                            android:layout_marginTop="@dimen/goal_title_final_y"
+                            android:layout_marginTop="@dimen/goal_title_final_y_hard"
                             android:textColor="@color/goal_text"
                             android:textSize="@dimen/goal_title_font_final"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            />
 
                         <TextView
                             android:id="@+id/goal_progress_cash_final"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/goal_cash_final_y"
+                            android:layout_marginTop="@dimen/goal_cash_final_y_hard"
                             android:text="1000 from 2000 USD"
                             android:textColor="@color/goal_text"
                             android:textSize="@dimen/goal_cash_font_final"
@@ -106,42 +107,44 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/goal_details_image_height"
-            android:padding="@dimen/goal_rules_padding"
+            android:paddingLeft="@dimen/goal_rules_padding"
+            android:paddingRight="@dimen/goal_rules_padding"
+            android:paddingBottom="@dimen/goal_rules_padding"
             app:layout_behavior="com.example.qapitalinterview.profile.GoalDetailsTitleBehaviour"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
             >
 
-        <TextView
-        android:id="@+id/goal_progress_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/goal_text"
-        android:layout_above="@+id/goal_progress_cash"
-        android:textSize="@dimen/goal_title_size"
-        android:textStyle="bold"
-        android:text="Dream house"
-        />
+            <TextView
+                android:id="@+id/goal_progress_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/goal_text"
+                android:layout_above="@+id/goal_progress_cash"
+                android:textSize="@dimen/goal_title_size"
+                android:textStyle="bold"
+                android:text="Dream house"
+                />
 
-        <TextView
-        android:id="@+id/goal_progress_cash"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/goal_text"
-        android:layout_above="@+id/goal_progress"
-        android:elevation="2dp"
-        android:textSize="@dimen/goal_title_size"
-        android:text="1000 from 2000 USD"
-        />
+            <TextView
+                android:id="@+id/goal_progress_cash"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/goal_text"
+                android:layout_above="@+id/goal_progress"
+                android:elevation="2dp"
+                android:textSize="@dimen/goal_title_size"
+                android:text="1000 from 2000 USD"
+                />
 
-        <ProgressBar
-        android:id="@+id/goal_progress"
-        style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:max="100"
-        android:progress="30"
-        />
+            <ProgressBar
+                android:id="@+id/goal_progress"
+                style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:max="100"
+                android:progress="30"
+                />
 
         </RelativeLayout>
 

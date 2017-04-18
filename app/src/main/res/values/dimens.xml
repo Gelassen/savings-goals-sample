@@ -33,8 +33,10 @@
 
     <dimen name="goal_title_final_x">72dp</dimen>
     <dimen name="goal_title_final_y">12dp</dimen>
+    <dimen name="goal_title_final_y_hard">4dp</dimen>
     <dimen name="goal_cash_final_x">72dp</dimen>
     <dimen name="goal_cash_final_y">28dp</dimen>
+    <dimen name="goal_cash_final_y_hard">20dp</dimen>
     <dimen name="goal_progress_final_x">72dp</dimen>
     <dimen name="goal_progress_final_y">48dp</dimen>
 

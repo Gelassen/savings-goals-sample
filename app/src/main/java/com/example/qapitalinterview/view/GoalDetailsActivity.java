@@ -82,6 +82,9 @@ public class GoalDetailsActivity extends BaseActivity implements
     private TextView goalBalance;
     private ProgressBar goalProgress;
 
+    private TextView goalTitleFinal;
+    private TextView goalBalanceFinal;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +102,9 @@ public class GoalDetailsActivity extends BaseActivity implements
         goalTitle = (TextView) findViewById(R.id.goal_progress_title);
         goalBalance = (TextView) findViewById(R.id.goal_progress_cash);
         goalProgress = (ProgressBar) findViewById(R.id.goal_progress);
+
+        goalTitleFinal = (TextView) findViewById(R.id.goal_progress_final);
+        goalBalanceFinal = (TextView) findViewById(R.id.goal_progress_cash_final);
 
         listAchievements = (RecyclerView) findViewById(R.id.list_achievements);
         listAchievements.setAdapter(new AchievementsAdapter(this));
@@ -147,6 +153,9 @@ public class GoalDetailsActivity extends BaseActivity implements
         goalTitle.setText(goal.getName());
         goalBalance.setText(interactor.getExtendedTargetBalance(this, goal));
         goalProgress.setProgress(interactor.getGoalProgress(goal));
+
+        goalTitleFinal.setText(goal.getName());
+        goalBalanceFinal.setText(interactor.getExtendedTargetBalance(this, goal));
     }
 
     @Override

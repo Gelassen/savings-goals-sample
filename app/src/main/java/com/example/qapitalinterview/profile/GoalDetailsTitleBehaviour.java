@@ -50,6 +50,8 @@ public class GoalDetailsTitleBehaviour extends CoordinatorLayout.Behavior<View> 
     private int actionBarHeight;
     private int progressThreshold;
 
+    private int progressDelta;
+
     private Decorator decorator;
 
     public GoalDetailsTitleBehaviour() {
@@ -109,6 +111,8 @@ public class GoalDetailsTitleBehaviour extends CoordinatorLayout.Behavior<View> 
             progressStartY = (int) goalProgress.getY();
             progressFinalX = res.getDimensionPixelSize(R.dimen.goal_progress_final_x);
             progressFinalY = res.getDimensionPixelSize(R.dimen.goal_progress_final_y);
+
+            progressDelta = progressStartY - startGoalY;
         }
     }
 
@@ -178,8 +182,9 @@ public class GoalDetailsTitleBehaviour extends CoordinatorLayout.Behavior<View> 
         }
 
         private int getMovementYProgress(View dependency) {
-            final int deltaY = progressStartY - progressFinalY;
-            return (int) (progressFinalY + deltaY * getScrollingRatio(dependency));
+//            final int deltaY = progressStartY - progressFinalY;
+//            return (int) (progressFinalY + deltaY * getScrollingRatio(dependency));
+            return (int) (goalCash.getY() + progressDelta);
         }
 
         private float getScrollingRatio(View dependency) {
