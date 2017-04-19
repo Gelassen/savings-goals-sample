@@ -4,11 +4,14 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.qapitalinterview.App;
+import com.example.qapitalinterview.AppApplication;
 import com.example.qapitalinterview.api.ApiModule;
 import com.example.qapitalinterview.api.IApi;
 import com.example.qapitalinterview.storage.ObservableFeed;
 import com.example.qapitalinterview.storage.ObservableGoal;
 import com.example.qapitalinterview.storage.ObservableSavingRule;
+
+import javax.inject.Inject;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -24,7 +27,8 @@ import rx.subjects.Subject;
 
 public class Model implements IModel{
 
-    private IApi api = ApiModule.getApiInterface();
+    @Inject
+    IApi api;// = ApiModule.getApiInterface();
     private ObservableGoal observableGoal;
     private ObservableFeed observableFeed;
     private ObservableSavingRule observableSavingRule;
@@ -32,6 +36,7 @@ public class Model implements IModel{
     private Context context;
 
     public Model(Context context) {
+        AppApplication.getAppComponent().inject(this);
         this.context = context;
         this.observableGoal = new ObservableGoal(context);
         this.observableFeed = new ObservableFeed(context);

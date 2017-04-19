@@ -1,7 +1,6 @@
 package com.example.qapitalinterview.model;
 
 
-import android.databinding.BaseObservable;
 
 public class BindedSavingsGoal  {
     public String goal;

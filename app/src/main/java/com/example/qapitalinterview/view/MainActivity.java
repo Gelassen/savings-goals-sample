@@ -12,6 +12,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.qapitalinterview.App;
+import com.example.qapitalinterview.AppApplication;
 import com.example.qapitalinterview.R;
 import com.example.qapitalinterview.converters.CursorToSavingGoalsConverter;
 import com.example.qapitalinterview.entity.Utils;
@@ -33,6 +34,10 @@ public class MainActivity extends BaseActivity implements IGoalView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        AppApplication app = (AppApplication) getApplication();
+        app.getAppComponent().inject(this);
+
         init(false);
 
         Utils.initStatusBarHeight(getWindow());
