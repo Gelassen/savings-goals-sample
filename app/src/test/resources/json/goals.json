@@ -1,0 +1,124 @@
+{
+  "savingsGoals": [
+    {
+      "goalImageURL": "https://static.qapitalapp.net/assets/ios-staging.api.qapital.com/images/goal/6dc5befb-5389-4d89-ab37-205c83ccf79c.jpg",
+      "userId": 1,
+      "targetAmount": 1500,
+      "currentBalance": 400,
+      "created": [
+        2014,
+        12,
+        5
+      ],
+      "status": "active",
+      "name": "Balloons",
+      "id": 1,
+      "connectedUsers": [2, 3, 4]
+    },
+    {
+      "goalImageURL": "https://static.qapitalapp.net/assets/ios-staging.api.qapital.com/images/goal/f2a19183-46c3-42cd-9ba3-cff5103d548a.jpg",
+      "userId": 1,
+      "targetAmount": null,
+      "currentBalance": 50,
+      "created": [
+        2014,
+        12,
+        5
+      ],
+      "status": "active",
+      "name": "Dog",
+      "id": 2,
+      "connectedUsers": null
+    },
+    {
+      "goalImageURL": "https://static.qapitalapp.net/assets/ios-staging.api.qapital.com/images/goal/d188450e-8dd4-4be4-a21a-860c133e42a8.jpg",
+      "userId": 1,
+      "targetAmount": 500,
+      "currentBalance": 500,
+      "created": [
+        2014,
+        12,
+        5
+      ],
+      "status": "active",
+      "name": "Bike",
+      "id": 3,
+      "connectedUsers": null
+    },
+    {
+      "goalImageURL": "https://static.qapitalapp.net/assets/ios-staging.api.qapital.com/images/goal/e1811786-19a0-4a59-96a4-9222ff30192e.jpg",
+      "userId": 1,
+      "targetAmount": 600,
+      "currentBalance": 0,
+      "created": [
+        2014,
+        12,
+        5
+      ],
+      "status": "active",
+      "name": "Graduation",
+      "id": 4,
+      "connectedUsers": null
+    },
+    {
+      "goalImageURL": "https://static.qapitalapp.net/assets/ios-staging.api.qapital.com/images/goal/1bbf030a-94c6-4ded-bfcc-150335b2df26.jpg",
+      "userId": 1,
+      "targetAmount": null,
+      "currentBalance": 10,
+      "created": [
+        2014,
+        12,
+        5
+      ],
+      "status": "active",
+      "name": "Vacation",
+      "id": 5,
+      "connectedUsers": [4]
+    },
+    {
+      "goalImageURL": "https://static.qapitalapp.net/assets/ios-staging.api.qapital.com/images/goal/8fb37db7-c495-4e4a-96a4-7df2c97dba9c.jpg",
+      "userId": 1,
+      "targetAmount": null,
+      "currentBalance": 40,
+      "created": [
+        2014,
+        12,
+        5
+      ],
+      "status": "active",
+      "name": "Brand New Wheels",
+      "id": 6,
+      "connectedUsers": [5, 6]
+    },
+    {
+      "goalImageURL": "https://static.qapitalapp.net/assets/ios-staging.api.qapital.com/images/goal/d161cfb9-8e3b-4eeb-ac41-9fe292afb9de.jpg",
+      "userId": 1,
+      "targetAmount": null,
+      "currentBalance": 0,
+      "created": [
+        2014,
+        12,
+        5
+      ],
+      "status": "active",
+      "name": "A New Crib",
+      "id": 7,
+      "connectedUsers": null
+    },
+    {
+      "goalImageURL": "https://static.qapitalapp.net/assets/ios-staging.api.qapital.com/images/goal/d954e2b9-bb54-40d6-9d74-6e9d5f879af5.jpg",
+      "userId": 1,
+      "targetAmount": null,
+      "currentBalance": 130,
+      "created": [
+        2014,
+        12,
+        5
+      ],
+      "status": "active",
+      "name": "A Rainy Day",
+      "id": 8,
+      "connectedUsers": null
+    }
+  ]
+}

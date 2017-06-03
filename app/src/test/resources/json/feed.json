@@ -1,0 +1,75 @@
+{
+  "feed": [
+    {
+      "id": "62e83994-32b5-4305-97e6-f6a0a8e3013a",
+      "type": "saving",
+      "timestamp": "2015-03-10T14:55:16.025Z",
+      "message": "<strong>You</strong> made a manual transfer.",
+      "amount": 10,
+      "userId": 1
+    },
+    {
+      "id": "c80eaac7-74ca-4060-b13d-82dc5c1e62b9",
+      "type": "saving",
+      "timestamp": "2015-03-09T12:31:16.025Z",
+      "message": "<strong>You</strong> didn't resist a guilty pleasure at <strong>Starbucks</strong>.",
+      "amount": 4,
+      "userId": 1,
+      "savingsRuleId": 2
+    },
+    {
+      "id": "7545f048-9271-4955-a337-d14e2613fc0d",
+      "type": "saving",
+      "timestamp": "2015-03-09T12:31:16.025Z",
+      "message": "<strong>You</strong> made a roundup.",
+      "amount": 0.78,
+      "userId": 1,
+      "savingsRuleId": 1
+    },
+    {
+      "id": "80e60a48-30b3-4987-a069-122ec1f3f245",
+      "type": "saving",
+      "timestamp": "2015-03-08T20:32:15.025Z",
+      "message": "<strong>Johan</strong> made a roundup.",
+      "amount": 0.99,
+      "userId": 3,
+      "savingsRuleId": 1
+    },
+    {
+      "id": "c3b18367-faca-4dbf-881a-048a51c635fa",
+      "type": "saving",
+      "timestamp": "2015-03-08T19:00:02.025Z",
+      "message": "<strong>You</strong> made a manual transfer.",
+      "amount": 12.50,
+      "userId": 1
+    },
+    {
+      "id": "d4f6009b-eb1a-438b-bb0f-2155154f9ed8",
+      "type": "saving",
+      "timestamp": "2015-03-06T22:00:16.025Z",
+      "message": "<strong>You</strong> didn't resist a guilty pleasure at <strong>Starbucks</strong>.",
+      "amount": 4,
+      "userId": 1,
+      "savingsRuleId": 2
+    },
+    {
+      "id": "818ea45c-48f1-4d97-85c3-4f89b5d7c2c4",
+      "type": "saving",
+      "timestamp": "2015-03-06T22:00:16.025Z",
+      "message": "<strong>You</strong> made a roundup.",
+      "amount": 0.23,
+      "userId": 1,
+      "savingsRuleId": 1
+    },
+    {
+      "id": "2ef6d284-f0f7-43b2-b418-33a2a55560e9",
+      "type": "saving",
+      "timestamp": "2015-03-05T05:33:55.025Z",
+      "message": "<strong>Johan</strong> made a roundup.",
+      "amount": 0.67,
+      "userId": 3,
+      "savingsRuleId": 1
+    }
+  ]
+}
+

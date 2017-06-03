@@ -1,0 +1,14 @@
+{
+  "savingsRules" : [
+    {
+      "id" : 1,
+      "type" : "roundup",
+      "amount" : 1
+    },
+    {
+      "id" : 2,
+      "type" : "guilty_pleasure",
+      "amount" : 4
+    }
+  ]
+}

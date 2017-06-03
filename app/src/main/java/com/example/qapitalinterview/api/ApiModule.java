@@ -28,19 +28,7 @@ public class ApiModule {
 
     @Provides
     public static IApi getApiInterface() {
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
-
-        OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
-        okHttpClient.addInterceptor(logging);
-
-        Retrofit.Builder builder = new Retrofit.Builder();
-        builder.baseUrl(API);
-        builder.addConverterFactory(GsonConverterFactory.create());
-        builder.addCallAdapterFactory(RxJavaCallAdapterFactory.create());
-        builder.client(okHttpClient.build());
-
-        return builder.build().create(IApi.class);
+        return getApiInterface(API);
     }
 
     @Provides
@@ -55,5 +43,21 @@ public class ApiModule {
     @Named(App.Const.IO_THREAD)
     public static Scheduler provideSchedulerIO() {
         return Schedulers.io();
+    }
+
+    public static IApi getApiInterface(String url) {
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
+
+        OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
+        okHttpClient.addInterceptor(logging);
+
+        Retrofit.Builder builder = new Retrofit.Builder();
+        builder.baseUrl(url);
+        builder.addConverterFactory(GsonConverterFactory.create());
+        builder.addCallAdapterFactory(RxJavaCallAdapterFactory.create());
+        builder.client(okHttpClient.build());
+
+        return builder.build().create(IApi.class);
     }
 }
