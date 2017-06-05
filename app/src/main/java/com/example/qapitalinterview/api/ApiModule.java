@@ -17,31 +17,28 @@ import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by John on 10/30/2016.
- */
-
 @Module
 public class ApiModule {
 
     private static final String API = "http://qapital-ios-testtask.herokuapp.com";
 
     @Provides
-    public static IApi getApiInterface() {
+    @Singleton
+    /*package*/  static IApi getApiInterface() {
         return getApiInterface(API);
     }
 
     @Provides
     @Singleton
     @Named(App.Const.UI_THREAD)
-    public static Scheduler provideSchedulerUI() {
+    /*package*/  static Scheduler provideSchedulerUI() {
         return AndroidSchedulers.mainThread();
     }
 
     @Provides
     @Singleton
     @Named(App.Const.IO_THREAD)
-    public static Scheduler provideSchedulerIO() {
+    /*package*/  static Scheduler provideSchedulerIO() {
         return Schedulers.io();
     }
 

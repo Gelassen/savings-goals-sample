@@ -12,8 +12,10 @@ import com.example.qapitalinterview.storage.ObservableGoal;
 import com.example.qapitalinterview.storage.ObservableSavingRule;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import rx.Observable;
+import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -21,17 +23,23 @@ import rx.schedulers.Schedulers;
 import rx.schedulers.Timestamped;
 import rx.subjects.Subject;
 
-/**
- * Created by John on 10/30/2016.
- */
-
 public class Model implements IModel{
 
     @Inject
-    IApi api;// = ApiModule.getApiInterface();
+    IApi api;
+
     private ObservableGoal observableGoal;
     private ObservableFeed observableFeed;
     private ObservableSavingRule observableSavingRule;
+
+
+    @Inject
+    @Named(App.Const.IO_THREAD)
+    Scheduler ioThread;
+
+    @Inject
+    @Named(App.Const.UI_THREAD)
+    Scheduler mainThread;
 
     private Context context;
 
@@ -58,55 +66,55 @@ public class Model implements IModel{
                         )
                 )
                 .onErrorResumeNext(observableGoal.getSavingsGoals())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(ioThread)
+                .observeOn(mainThread);
     }
 
     @Override
     public Observable<SavingsGoals> cacheSavingGoals() {
         return api.getSavingsGoals()
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(ioThread)
                 .flatMap(new Func1<SavingsGoals, Observable<SavingsGoals>>() {
                     @Override
                     public Observable<SavingsGoals> call(SavingsGoals savingsGoals) {
                         return observableGoal.saveAll(savingsGoals.getSavingsGoals());
                     }
                 })
-                .observeOn(AndroidSchedulers.mainThread());
+                .observeOn(mainThread);
 
     }
 
     @Override
     public Observable<Feeds> cacheUserFeeds(int goalId) {
         return api.getSavingsGoalFeed(goalId)
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(ioThread)
                 .flatMap(new Func1<Feeds, Observable<Feeds>>() {
                     @Override
                     public Observable<Feeds> call(Feeds feeds) {
                         return observableFeed.saveAll(feeds.getFeed(), goalId);
                     }
                 })
-                .observeOn(AndroidSchedulers.mainThread());
+                .observeOn(mainThread);
     }
 
     @Override
     public Observable<SavingRules> cacheSavingsRules() {
         return api.getSavingsRules()
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(ioThread)
                 .flatMap(new Func1<SavingRules, Observable<SavingRules>>() {
                     @Override
                     public Observable<SavingRules> call(SavingRules savingRules) {
                         return observableSavingRule.saveAll(savingRules.getSavingsRules());
                     }
                 })
-                .observeOn(AndroidSchedulers.mainThread());
+                .observeOn(mainThread);
     }
 
     @Deprecated
     public Observable<Timestamped<SavingsGoals>> getTestSavingsGoal() {
         return observableGoal
                 .getTimestampedSavingsGoals()
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(ioThread)
                 .flatMap(new Func1<Timestamped<SavingsGoals>, Observable<Timestamped<SavingsGoals>>>() {
                     @Override
                     public Observable<Timestamped<SavingsGoals>> call(Timestamped<SavingsGoals> cachedData) {
@@ -115,7 +123,7 @@ public class Model implements IModel{
                                 .filter(filterResponse(cachedData));
                     }
                 })
-                .subscribeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(mainThread);
     }
 
     @Deprecated
@@ -135,7 +143,7 @@ public class Model implements IModel{
     private Observable<Timestamped<SavingsGoals>> getGoalsFromBothSources() {
         Log.d(App.FLOW, "getGoalsFromBothSources:explicit");
         return Observable.merge(
-                observableGoal.getTimestampedSavingsGoals().subscribeOn(Schedulers.io()),
+                observableGoal.getTimestampedSavingsGoals().subscribeOn(ioThread),
                 api.getSavingsGoals()
                         .timestamp()
                         .flatMap(new Func1<Timestamped<SavingsGoals>, Observable<Timestamped<SavingsGoals>>>() {
@@ -145,7 +153,7 @@ public class Model implements IModel{
                                 return observableGoal.saveAllWithTimestamp(savingsGoals.getTimestampMillis(), savingsGoals.getValue().getSavingsGoals());
                             }
                         }))
-                .subscribeOn(Schedulers.io());
+                .subscribeOn(ioThread);
     }
 
 }

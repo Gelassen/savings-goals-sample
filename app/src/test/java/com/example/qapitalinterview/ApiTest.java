@@ -18,31 +18,30 @@ import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 import com.squareup.okhttp.mockwebserver.RecordedRequest;
 
-import org.assertj.core.api.IntegerAssert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
+
+import javax.inject.Inject;
 
 import rx.observers.TestSubscriber;
 
 import static org.junit.Assert.*;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(application = AppApplication.class,
-        constants = BuildConfig.class,
-        sdk = 21)
-public class ApiTest {
+public class ApiTest extends BaseTest{
 
     private MockWebServer webServer;
-    private IApi api;
+
+    @Inject
+    IApi api;
 
     private TestUtils testUtils;
 
     @Before
     public void setUp() throws Exception {
         Log.d(App.TAG, "Test setUp");
+        super.setUp();
+        component.inject(this);
+
         testUtils = new TestUtils();
         webServer = new MockWebServer();
         webServer.start();
@@ -74,7 +73,7 @@ public class ApiTest {
 
     @Test
     public void testGoals() throws Exception {
-        TestSubscriber<SavingsGoals> testSubscriber = new TestSubscriber();
+        TestSubscriber<SavingsGoals> testSubscriber = new TestSubscriber<>();
         api.getSavingsGoals().subscribe(testSubscriber);
 
         testSubscriber.assertNoErrors();
@@ -117,7 +116,7 @@ public class ApiTest {
 
     @Test
     public void test() throws Exception {
-        TestSubscriber<Feeds> testSubscriber = new TestSubscriber();
+        TestSubscriber<Feeds> testSubscriber = new TestSubscriber<>();
         api.getSavingsGoalFeed(TestApp.Const.GOAL_ID).subscribe(testSubscriber);
 
         testSubscriber.assertNoErrors();

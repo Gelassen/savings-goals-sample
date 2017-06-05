@@ -1,19 +1,13 @@
 package com.example.qapitalinterview;
 
 
-import android.content.Context;
-import android.support.multidex.MultiDex;
-import android.util.Log;
+import com.example.qapitalinterview.components.AppComponent;
+import com.example.qapitalinterview.di.DaggerTestComponent;
 
 public class TestApplication extends AppApplication {
 
-    // TODO init the test component instead of common one
-
     @Override
-    protected void attachBaseContext(Context base) {
-        Log.d(App.TAG, "attachBaseContext");
-        super.attachBaseContext(base);
-        MultiDex.install(this);
+    protected AppComponent buildComponent() {
+        return DaggerTestComponent.builder().build();
     }
-
 }
