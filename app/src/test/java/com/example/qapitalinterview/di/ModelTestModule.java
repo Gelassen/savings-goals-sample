@@ -18,6 +18,7 @@ import static org.mockito.Mockito.mock;
 /*package*/ class ModelTestModule {
 
     @Provides
+    @Singleton
     /*package*/ static IApi getApiInterface() {
         return mock(IApi.class);
     }

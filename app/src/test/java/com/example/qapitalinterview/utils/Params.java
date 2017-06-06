@@ -1,7 +1,7 @@
-package com.example.qapitalinterview;
+package com.example.qapitalinterview.utils;
 
 
-public class TestApp {
+public class Params {
 
     public static class Const {
         public static String USER_ID = "USER_ID";

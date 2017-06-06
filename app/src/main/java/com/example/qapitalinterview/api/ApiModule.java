@@ -28,20 +28,6 @@ public class ApiModule {
         return getApiInterface(API);
     }
 
-    @Provides
-    @Singleton
-    @Named(App.Const.UI_THREAD)
-    /*package*/  static Scheduler provideSchedulerUI() {
-        return AndroidSchedulers.mainThread();
-    }
-
-    @Provides
-    @Singleton
-    @Named(App.Const.IO_THREAD)
-    /*package*/  static Scheduler provideSchedulerIO() {
-        return Schedulers.io();
-    }
-
     public static IApi getApiInterface(String url) {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
@@ -56,5 +42,19 @@ public class ApiModule {
         builder.client(okHttpClient.build());
 
         return builder.build().create(IApi.class);
+    }
+
+    @Provides
+    @Singleton
+    @Named(App.Const.UI_THREAD)
+    /*package*/ static Scheduler provideSchedulerUI() {
+        return AndroidSchedulers.mainThread();
+    }
+
+    @Provides
+    @Singleton
+    @Named(App.Const.IO_THREAD)
+    /*package*/ static Scheduler provideSchedulerIO() {
+        return Schedulers.io();
     }
 }

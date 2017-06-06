@@ -11,6 +11,7 @@ import com.example.qapitalinterview.model.SavingRules;
 import com.example.qapitalinterview.model.SavingsGoal;
 import com.example.qapitalinterview.model.SavingsGoals;
 import com.example.qapitalinterview.model.SavingsRule;
+import com.example.qapitalinterview.utils.Params;
 import com.example.qapitalinterview.utils.TestUtils;
 import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.mockwebserver.Dispatcher;
@@ -18,6 +19,7 @@ import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 import com.squareup.okhttp.mockwebserver.RecordedRequest;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -52,13 +54,13 @@ public class ApiTest extends BaseTest{
                 if (request.getPath().equals("/savingsgoals")) {
                     response = new MockResponse().setResponseCode(200)
                             .setBody(testUtils.readString("json/goals.json"));
-                } else if (request.getPath().equals("/savingsgoals/" + TestApp.Const.GOAL_ID + "/feed")) {
+                } else if (request.getPath().equals("/savingsgoals/" + Params.Const.GOAL_ID + "/feed")) {
                     response = new MockResponse().setResponseCode(200)
                             .setBody(testUtils.readString("json/feed.json"));
                 } else if (request.getPath().equals("/savingsrules")) {
                     response = new MockResponse().setResponseCode(200)
                             .setBody(testUtils.readString("json/rules.json"));
-                } else if (request.getPath().equals("/user/" + TestApp.Const.USER_ID)) {
+                } else if (request.getPath().equals("/user/" + Params.Const.USER_ID)) {
                     response = new MockResponse().setResponseCode(200)
                             .setBody(testUtils.readString("json/user.json"));
                 } else {
@@ -115,9 +117,9 @@ public class ApiTest extends BaseTest{
     }
 
     @Test
-    public void test() throws Exception {
+    public void testSpecificGoal() throws Exception {
         TestSubscriber<Feeds> testSubscriber = new TestSubscriber<>();
-        api.getSavingsGoalFeed(TestApp.Const.GOAL_ID).subscribe(testSubscriber);
+        api.getSavingsGoalFeed(Params.Const.GOAL_ID).subscribe(testSubscriber);
 
         testSubscriber.assertNoErrors();
         testSubscriber.assertValueCount(1);
@@ -134,5 +136,10 @@ public class ApiTest extends BaseTest{
         assertEquals(Double.valueOf(10.0), feed.getAmount());
         assertEquals(Integer.valueOf(1), feed.getUserId());
         assertEquals(0, feed.getGoalId());
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        webServer.shutdown();
     }
 }

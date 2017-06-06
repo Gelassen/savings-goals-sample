@@ -1,9 +1,8 @@
 package com.example.qapitalinterview;
 
 
-import android.util.Log;
-
 import com.example.qapitalinterview.di.TestComponent;
+import com.example.qapitalinterview.utils.TestUtils;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -20,10 +19,12 @@ import org.robolectric.RobolectricTestRunner;
 public class BaseTest {
 
     /*package*/ TestComponent component;
+    /*package*/ TestUtils testUtils;
 
     @Before
     public void setUp() throws Exception {
         component = (TestComponent) TestApplication.getAppComponent();
+        testUtils = new TestUtils();
     }
 
 }

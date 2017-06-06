@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.example.qapitalinterview.App;
 import com.example.qapitalinterview.AppApplication;
-import com.example.qapitalinterview.api.ApiModule;
 import com.example.qapitalinterview.api.IApi;
 import com.example.qapitalinterview.storage.ObservableFeed;
 import com.example.qapitalinterview.storage.ObservableGoal;
@@ -16,12 +15,9 @@ import javax.inject.Named;
 
 import rx.Observable;
 import rx.Scheduler;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 import rx.schedulers.Timestamped;
-import rx.subjects.Subject;
+
 
 public class Model implements IModel{
 
@@ -31,7 +27,6 @@ public class Model implements IModel{
     private ObservableGoal observableGoal;
     private ObservableFeed observableFeed;
     private ObservableSavingRule observableSavingRule;
-
 
     @Inject
     @Named(App.Const.IO_THREAD)
@@ -49,6 +44,10 @@ public class Model implements IModel{
         this.observableGoal = new ObservableGoal(context);
         this.observableFeed = new ObservableFeed(context);
         this.observableSavingRule = new ObservableSavingRule(context);
+    }
+
+    public IApi getApi() {
+        return api;
     }
 
     @Override
