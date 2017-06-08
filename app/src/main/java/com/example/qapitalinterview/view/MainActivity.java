@@ -35,8 +35,7 @@ public class MainActivity extends BaseActivity implements IGoalView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AppApplication app = (AppApplication) getApplication();
-        app.getAppComponent().inject(this);
+        AppApplication.getAppComponent().inject(this);
 
         init(false);
 
@@ -49,7 +48,7 @@ public class MainActivity extends BaseActivity implements IGoalView {
         adapter = new GoalsAdapter(this);
         recyclerView.setAdapter(adapter);
 
-        presenter = new SavingsGoalPresenter(this);
+        presenter = new SavingsGoalPresenter(this, this);
         presenter.onRefreshData();
     }
 

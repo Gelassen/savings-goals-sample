@@ -3,6 +3,7 @@ package com.example.qapitalinterview.di;
 
 import com.example.qapitalinterview.App;
 import com.example.qapitalinterview.api.IApi;
+import com.example.qapitalinterview.model.IModel;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -21,6 +22,12 @@ import static org.mockito.Mockito.mock;
     @Singleton
     /*package*/ static IApi getApiInterface() {
         return mock(IApi.class);
+    }
+
+    @Provides
+    @Singleton
+    /*package*/ static IModel getModel() {
+        return mock(IModel.class);
     }
 
     @Provides

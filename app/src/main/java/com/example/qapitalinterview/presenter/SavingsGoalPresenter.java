@@ -1,32 +1,44 @@
 package com.example.qapitalinterview.presenter;
 
+import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.example.qapitalinterview.App;
+import com.example.qapitalinterview.AppApplication;
 import com.example.qapitalinterview.model.IModel;
 import com.example.qapitalinterview.model.Model;
 import com.example.qapitalinterview.model.SavingsGoals;
 import com.example.qapitalinterview.view.GoalDetailsActivity;
 import com.example.qapitalinterview.view.IGoalView;
 
+import javax.inject.Inject;
+
 import rx.Observer;
 import rx.Subscription;
 import rx.schedulers.Timestamped;
 import rx.subscriptions.Subscriptions;
 
-/**
- * Created by John on 10/30/2016.
- */
-
 public class SavingsGoalPresenter implements IGoalsPresenter {
 
-    private IModel model;
+    @Inject
+    IModel model;
+
     private IGoalView view;
     private Subscription subscription = Subscriptions.empty();
 
-    public SavingsGoalPresenter(IGoalView view) {
+    public SavingsGoalPresenter(Context context, IGoalView view) {
+//        AppApplication.getAppComponent().inject(this);
         this.view = view;
-        this.model = new Model(view.getContext());
+        this.model = new Model(context);
+    }
+
+    public IModel getModel() {
+        return model;
+    }
+
+    public IGoalView getView() {
+        return view;
     }
 
     @Override
@@ -60,13 +72,13 @@ public class SavingsGoalPresenter implements IGoalsPresenter {
 
             @Override
             public void onNext(SavingsGoals savingsGoals) {
-                Log.d(App.TAG, "savings goal receive result: " + savingsGoals.getSavingsGoals().size());
                 Log.d(App.TAG, "Show the next item");
                 if (savingsGoals != null && !savingsGoals.getSavingsGoals().isEmpty()) {
                     view.showData(savingsGoals.getSavingsGoals());
                 } else {
                     view.showError();
                 }
+                Log.d(App.TAG, "savings goal receive result: " + savingsGoals.getSavingsGoals().size());
             }
         });
     }
