@@ -2,6 +2,7 @@ package com.example.qapitalinterview.view;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
@@ -59,6 +60,11 @@ public class MainActivity extends BaseActivity implements IGoalView {
         viewComponent.inject(this);
     }
 
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    public GoalsAdapter getAdapter() {
+        return adapter;
+    }
+
     @Override
     public void showData(final List<SavingsGoal> data) {
         runOnUiThread(new Runnable() {
@@ -80,7 +86,12 @@ public class MainActivity extends BaseActivity implements IGoalView {
     }
 
     @Override
-    protected void onStop() {
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onStop() {
         super.onStop();
         if (presenter != null) {
             presenter.onStop();

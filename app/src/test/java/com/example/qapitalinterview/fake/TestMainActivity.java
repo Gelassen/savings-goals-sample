@@ -3,6 +3,7 @@ package com.example.qapitalinterview.fake;
 
 import com.example.qapitalinterview.di.DaggerTestViewComponent;
 import com.example.qapitalinterview.di.TestViewModule;
+import com.example.qapitalinterview.di.ViewComponent;
 import com.example.qapitalinterview.view.MainActivity;
 
 public class TestMainActivity extends MainActivity {
@@ -13,6 +14,10 @@ public class TestMainActivity extends MainActivity {
                 .testViewModule(new TestViewModule())
                 .build();
         viewComponent.inject(this);
+    }
+
+    public ViewComponent getViewComponent() {
+        return viewComponent;
     }
 
 }
