@@ -3,7 +3,7 @@ package com.example.qapitalinterview;
 
 import android.util.Log;
 
-import com.example.qapitalinterview.api.ApiModule;
+import com.example.qapitalinterview.di.ApiModule;
 import com.example.qapitalinterview.api.IApi;
 import com.example.qapitalinterview.model.Feed;
 import com.example.qapitalinterview.model.Feeds;

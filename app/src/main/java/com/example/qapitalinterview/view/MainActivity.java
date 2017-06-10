@@ -1,41 +1,40 @@
 package com.example.qapitalinterview.view;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.example.qapitalinterview.App;
-import com.example.qapitalinterview.AppApplication;
 import com.example.qapitalinterview.R;
-import com.example.qapitalinterview.converters.CursorToSavingGoalsConverter;
+import com.example.qapitalinterview.di.DaggerViewComponent;
+import com.example.qapitalinterview.di.ViewComponent;
+import com.example.qapitalinterview.di.ViewModule;
 import com.example.qapitalinterview.entity.Utils;
 import com.example.qapitalinterview.model.SavingsGoal;
 import com.example.qapitalinterview.presenter.IGoalsPresenter;
-import com.example.qapitalinterview.presenter.SavingsGoalPresenter;
-import com.example.qapitalinterview.storage.Contract;
 import com.example.qapitalinterview.view.adapters.GoalsAdapter;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 public class MainActivity extends BaseActivity implements IGoalView {
 
     private RecyclerView recyclerView;
     private GoalsAdapter adapter;
-    private IGoalsPresenter presenter;
+
+    @Inject
+    protected IGoalsPresenter presenter;
+
+    protected ViewComponent viewComponent;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AppApplication.getAppComponent().inject(this);
+        initViewComponent();
 
         init(false);
 
@@ -48,8 +47,16 @@ public class MainActivity extends BaseActivity implements IGoalView {
         adapter = new GoalsAdapter(this);
         recyclerView.setAdapter(adapter);
 
-        presenter = new SavingsGoalPresenter(this, this);
         presenter.onRefreshData();
+    }
+
+    protected void initViewComponent() {
+        if (viewComponent == null) {
+            viewComponent = DaggerViewComponent.builder()
+                    .viewModule(new ViewModule(this, this))
+                    .build();
+        }
+        viewComponent.inject(this);
     }
 
     @Override

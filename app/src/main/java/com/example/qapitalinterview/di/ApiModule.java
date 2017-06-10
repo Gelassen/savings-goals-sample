@@ -1,7 +1,12 @@
-package com.example.qapitalinterview.api;
+package com.example.qapitalinterview.di;
+
+import android.content.Context;
 
 import com.example.qapitalinterview.App;
 import com.example.qapitalinterview.BuildConfig;
+import com.example.qapitalinterview.api.IApi;
+import com.example.qapitalinterview.model.IModel;
+import com.example.qapitalinterview.model.Model;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -22,10 +27,22 @@ public class ApiModule {
 
     private static final String API = "http://qapital-ios-testtask.herokuapp.com";
 
+    private Context context;
+
+    public ApiModule(Context context) {
+        this.context = context;
+    }
+
     @Provides
     @Singleton
-    /*package*/  static IApi getApiInterface() {
+    /*package*/ IApi getApiInterface() {
         return getApiInterface(API);
+    }
+
+    @Provides
+    @Singleton
+    /*package*/ IModel getModel() {
+        return new Model(context);
     }
 
     public static IApi getApiInterface(String url) {

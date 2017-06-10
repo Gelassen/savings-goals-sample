@@ -30,10 +30,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.MainActivity" />
         </activity>
-        <!--<activity android:name=".profile.TestActivity"-->
-            <!--android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--/>-->
+
         <provider
             android:authorities="com.example.qapitalinterview"
             android:name=".storage.AppContentProvider" />

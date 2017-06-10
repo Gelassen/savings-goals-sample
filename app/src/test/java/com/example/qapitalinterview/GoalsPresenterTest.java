@@ -1,14 +1,20 @@
 package com.example.qapitalinterview;
 
 
+import android.os.Bundle;
+
 import com.example.qapitalinterview.model.IModel;
 import com.example.qapitalinterview.model.SavingsGoals;
 import com.example.qapitalinterview.presenter.SavingsGoalPresenter;
 import com.example.qapitalinterview.view.IGoalView;
+import com.example.qapitalinterview.view.MainActivity;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.robolectric.Robolectric;
 import org.robolectric.RuntimeEnvironment;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -17,7 +23,7 @@ import rx.Observable;
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 
-public class GoalsTest extends BaseTest {
+public class GoalsPresenterTest extends BaseTest {
 
     @Inject
     IModel model;
@@ -26,6 +32,8 @@ public class GoalsTest extends BaseTest {
 
     private SavingsGoalPresenter presenter;
     private SavingsGoals stubResponse;
+
+    private MainActivity activity;
 
     @Override
     @Before
@@ -37,6 +45,8 @@ public class GoalsTest extends BaseTest {
         presenter = new SavingsGoalPresenter(RuntimeEnvironment.application, view);
 
         stubResponse = testUtils.getGson().fromJson(testUtils.readString("json/goals.json"), SavingsGoals.class);
+
+        activity = Robolectric.setupActivity(MainActivity.class);
 
         doAnswer(invocation -> Observable.just(stubResponse))
                 .when(model)
@@ -51,11 +61,28 @@ public class GoalsTest extends BaseTest {
 
     @Test
     public void testShowData() throws Exception {
+        presenter.onRefreshData();
+        verify(view).showData(stubResponse.getSavingsGoals());
+    }
+
+    @Test
+    public void testShowEmptyList() throws Exception {
+        doAnswer(invocation -> Observable.just(null))
+                .when(model)
+                .getSavingGoals();
 
         presenter.onRefreshData();
+        verify(view).showError();
+    }
 
-        verify(view).showData(stubResponse.getSavingsGoals());
+    @Test
+    public void testShowDataWhenThereIsNoData() throws Exception {
+        doAnswer(invocation -> Observable.just(new ArrayList<SavingsGoals>()))
+                .when(model)
+                .getSavingGoals();
 
+        presenter.onRefreshData();
+        verify(view).showError();
     }
 
 }

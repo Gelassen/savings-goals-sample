@@ -1,7 +1,7 @@
 package com.example.qapitalinterview;
 
 
-import com.example.qapitalinterview.components.AppComponent;
+import com.example.qapitalinterview.di.AppComponent;
 import com.example.qapitalinterview.di.DaggerTestComponent;
 
 public class TestApplication extends AppApplication {

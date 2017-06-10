@@ -28,9 +28,8 @@ public class SavingsGoalPresenter implements IGoalsPresenter {
     private Subscription subscription = Subscriptions.empty();
 
     public SavingsGoalPresenter(Context context, IGoalView view) {
-//        AppApplication.getAppComponent().inject(this);
+        AppApplication.getAppComponent().inject(this);
         this.view = view;
-        this.model = new Model(context);
     }
 
     public IModel getModel() {
@@ -68,6 +67,7 @@ public class SavingsGoalPresenter implements IGoalsPresenter {
             @Override
             public void onError(Throwable e) {
                 Log.e(App.TAG, "onError: ", e);
+                view.showError();
             }
 
             @Override
@@ -78,7 +78,7 @@ public class SavingsGoalPresenter implements IGoalsPresenter {
                 } else {
                     view.showError();
                 }
-                Log.d(App.TAG, "savings goal receive result: " + savingsGoals.getSavingsGoals().size());
+                Log.d(App.TAG, "savings goal receive result: " + (savingsGoals == null ? "null" : savingsGoals.getSavingsGoals().size()));
             }
         });
     }
