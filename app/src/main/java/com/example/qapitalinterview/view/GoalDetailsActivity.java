@@ -61,7 +61,9 @@ public class GoalDetailsActivity extends BaseActivity implements
 
     public static void startTransition(Activity context, View transitView, String transitName, int goalId) {
         boolean isLollipop = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
-        if (isLollipop) {
+        // FIXME have a visual artifact, fix in future and turn off animation for now
+        boolean turnOff = false;
+        if (turnOff) {
             Intent intent = new Intent(context, GoalDetailsActivity.class);
             intent.setFlags(FLAG_ACTIVITY_SINGLE_TOP);
             intent.putExtra(EXTRA_GOAL_ID, goalId);

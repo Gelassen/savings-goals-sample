@@ -34,7 +34,7 @@
                     android:id="@+id/goal_image"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/goal_details_image_height"
-                    android:background="@drawable/london_flat"
+                    android:background="@color/goal_achievements"
                     android:fitsSystemWindows="true"
                     android:scaleType="centerCrop"
                     android:transitionName="@string/transition_goal_image"
