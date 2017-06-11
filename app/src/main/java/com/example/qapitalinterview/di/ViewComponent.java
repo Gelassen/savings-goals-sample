@@ -10,7 +10,7 @@ import dagger.Component;
 
 @Singleton
 @Component(modules = {ViewModule.class})
-public interface ViewComponent {
+public interface ViewComponent extends IComponent {
     void inject(MainActivity entity);
     void inject(GoalFragment goalFragment);
 }

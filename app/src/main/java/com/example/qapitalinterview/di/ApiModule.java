@@ -35,13 +35,13 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    /*package*/ IApi getApiInterface() {
+    public IApi getApiInterface() {
         return getApiInterface(API);
     }
 
     @Provides
     @Singleton
-    /*package*/ IModel getModel() {
+    public IModel getModel() {
         return new Model(context);
     }
 

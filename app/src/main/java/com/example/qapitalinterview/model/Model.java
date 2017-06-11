@@ -6,6 +6,7 @@ import android.util.Log;
 import com.example.qapitalinterview.App;
 import com.example.qapitalinterview.AppApplication;
 import com.example.qapitalinterview.api.IApi;
+import com.example.qapitalinterview.di.AppComponent;
 import com.example.qapitalinterview.storage.ObservableFeed;
 import com.example.qapitalinterview.storage.ObservableGoal;
 import com.example.qapitalinterview.storage.ObservableSavingRule;
@@ -39,7 +40,7 @@ public class Model implements IModel{
     private Context context;
 
     public Model(Context context) {
-        AppApplication.getAppComponent().inject(this);
+        ((AppComponent) AppApplication.getAppComponent()).inject(this);
         this.context = context;
         this.observableGoal = new ObservableGoal(context);
         this.observableFeed = new ObservableFeed(context);

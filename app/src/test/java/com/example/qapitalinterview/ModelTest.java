@@ -15,6 +15,7 @@ import org.robolectric.RuntimeEnvironment;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import rx.Observable;
 import rx.observers.TestSubscriber;
@@ -27,7 +28,7 @@ public class ModelTest extends BaseTest {
     @Inject
     IApi api;
 
-    Model model;
+    private Model model;
 
     @Override
     @Before
@@ -73,7 +74,7 @@ public class ModelTest extends BaseTest {
         // obtain response stub
         SavingRules stubResponse = testUtils.getGson().fromJson(testUtils.readString("json/rules.json"), SavingRules.class);
         when(api.getSavingsRules()).thenReturn(Observable.just(stubResponse));
-        // supply test subscriber to the model
+        // supply testSavingGoals subscriber to the model
         TestSubscriber<SavingRules> testSubscriber = new TestSubscriber<>();
         model.cacheSavingsRules().subscribe(testSubscriber);
         // get response and validate it
@@ -89,7 +90,7 @@ public class ModelTest extends BaseTest {
         // obtain response
         Feeds stubResponse = testUtils.getGson().fromJson(testUtils.readString("json/feed.json"), Feeds.class);
         when(api.getSavingsGoalFeed(Params.Const.GOAL_ID)).thenReturn(Observable.just(stubResponse));
-        // supply test subscriber to the model
+        // supply testSavingGoals subscriber to the model
         TestSubscriber<Feeds> testSubscriber = new TestSubscriber<>();
         model.cacheUserFeeds(Params.Const.GOAL_ID).subscribe(testSubscriber);
         // TODO validate response

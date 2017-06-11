@@ -20,13 +20,13 @@ import static org.mockito.Mockito.mock;
 
     @Provides
     @Singleton
-    /*package*/ static IApi getApiInterface() {
+    /*package*/  static IApi getApiInterface() {
         return mock(IApi.class);
     }
 
     @Provides
     @Singleton
-    /*package*/ static IModel getModel() {
+    public static IModel getModel() {
         return mock(IModel.class);
     }
 

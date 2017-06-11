@@ -1,8 +1,6 @@
 package com.example.qapitalinterview;
 
 
-import android.os.Bundle;
-
 import com.example.qapitalinterview.model.IModel;
 import com.example.qapitalinterview.model.SavingsGoals;
 import com.example.qapitalinterview.presenter.SavingsGoalPresenter;
@@ -17,6 +15,7 @@ import org.robolectric.RuntimeEnvironment;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import rx.Observable;
 

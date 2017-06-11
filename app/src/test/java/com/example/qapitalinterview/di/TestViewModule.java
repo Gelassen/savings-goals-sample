@@ -16,7 +16,7 @@ public class TestViewModule {
 
     @Singleton
     @Provides
-    IGoalsPresenter provideModule() {
+    IGoalsPresenter getPresenter() {
         return mock(SavingsGoalPresenter.class);
     }
 }

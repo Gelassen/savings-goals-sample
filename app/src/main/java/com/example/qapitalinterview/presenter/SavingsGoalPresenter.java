@@ -1,13 +1,12 @@
 package com.example.qapitalinterview.presenter;
 
 import android.content.Context;
-import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.example.qapitalinterview.App;
 import com.example.qapitalinterview.AppApplication;
+import com.example.qapitalinterview.di.AppComponent;
 import com.example.qapitalinterview.model.IModel;
-import com.example.qapitalinterview.model.Model;
 import com.example.qapitalinterview.model.SavingsGoals;
 import com.example.qapitalinterview.view.GoalDetailsActivity;
 import com.example.qapitalinterview.view.IGoalView;
@@ -16,7 +15,6 @@ import javax.inject.Inject;
 
 import rx.Observer;
 import rx.Subscription;
-import rx.schedulers.Timestamped;
 import rx.subscriptions.Subscriptions;
 
 public class SavingsGoalPresenter implements IGoalsPresenter {
@@ -28,7 +26,7 @@ public class SavingsGoalPresenter implements IGoalsPresenter {
     private Subscription subscription = Subscriptions.empty();
 
     public SavingsGoalPresenter(Context context, IGoalView view) {
-        AppApplication.getAppComponent().inject(this);
+        ((AppComponent) AppApplication.getAppComponent()).inject(this);
         this.view = view;
     }
 
