@@ -60,6 +60,10 @@ public class MainActivity extends BaseActivity implements IGoalView {
         viewComponent.inject(this);
     }
 
+    public IGoalsPresenter getPresenter() {
+        return presenter;
+    }
+
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     public GoalsAdapter getAdapter() {
         return adapter;

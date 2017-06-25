@@ -11,7 +11,7 @@ import dagger.Component;
 
 @Singleton
 @Component(modules = {IntegrationModule.class})
-public interface IntegrationComponent extends IComponent /*extends AppComponent*/ {
+public interface IntegrationComponent /*extends AppComponent*/ {
     void inject(ModelIntegrationTest entity);
     void inject(GoalsPresenterIntegrationTest goalsPresenterIntegrationTest);
 }

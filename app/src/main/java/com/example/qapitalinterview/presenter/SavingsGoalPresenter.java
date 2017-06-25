@@ -1,11 +1,12 @@
 package com.example.qapitalinterview.presenter;
 
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.example.qapitalinterview.App;
 import com.example.qapitalinterview.AppApplication;
-import com.example.qapitalinterview.di.AppComponent;
+import com.example.qapitalinterview.di.IComponent;
 import com.example.qapitalinterview.model.IModel;
 import com.example.qapitalinterview.model.SavingsGoals;
 import com.example.qapitalinterview.view.GoalDetailsActivity;
@@ -24,10 +25,12 @@ public class SavingsGoalPresenter implements IGoalsPresenter {
 
     private IGoalView view;
     private Subscription subscription = Subscriptions.empty();
+    private boolean isThereWorkInBackground;
 
     public SavingsGoalPresenter(Context context, IGoalView view) {
-        ((AppComponent) AppApplication.getAppComponent()).inject(this);
+        ((IComponent) AppApplication.getAppComponent()).inject(this);
         this.view = view;
+        this.isThereWorkInBackground = false;
     }
 
     public IModel getModel() {
@@ -56,6 +59,7 @@ public class SavingsGoalPresenter implements IGoalsPresenter {
             subscription.unsubscribe();
         }
 
+        setWorkInBackground(true);
         model.getSavingGoals().subscribe(new Observer<SavingsGoals>() {
             @Override
             public void onCompleted() {
@@ -65,12 +69,14 @@ public class SavingsGoalPresenter implements IGoalsPresenter {
             @Override
             public void onError(Throwable e) {
                 Log.e(App.TAG, "onError: ", e);
+                setWorkInBackground(false);
                 view.showError();
             }
 
             @Override
             public void onNext(SavingsGoals savingsGoals) {
                 Log.d(App.TAG, "Show the next item");
+                setWorkInBackground(false);
                 if (savingsGoals != null && !savingsGoals.getSavingsGoals().isEmpty()) {
                     view.showData(savingsGoals.getSavingsGoals());
                 } else {
@@ -79,5 +85,14 @@ public class SavingsGoalPresenter implements IGoalsPresenter {
                 Log.d(App.TAG, "savings goal receive result: " + (savingsGoals == null ? "null" : savingsGoals.getSavingsGoals().size()));
             }
         });
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    public boolean isWorkInBackground() {
+        return isThereWorkInBackground;
+    }
+
+    private void setWorkInBackground(boolean isThereWorkInBackground) {
+        this.isThereWorkInBackground = isThereWorkInBackground;
     }
 }

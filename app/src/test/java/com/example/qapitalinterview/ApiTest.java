@@ -13,11 +13,10 @@ import com.example.qapitalinterview.model.SavingsGoals;
 import com.example.qapitalinterview.model.SavingsRule;
 import com.example.qapitalinterview.utils.Params;
 import com.example.qapitalinterview.utils.TestUtils;
+import com.example.qapitalinterview.webresources.AppServerDispatcher;
+import com.example.qapitalinterview.webresources.GoalsWebResource;
 import com.squareup.okhttp.HttpUrl;
-import com.squareup.okhttp.mockwebserver.Dispatcher;
-import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
-import com.squareup.okhttp.mockwebserver.RecordedRequest;
 
 import org.junit.After;
 import org.junit.Before;
@@ -32,6 +31,7 @@ import static org.junit.Assert.*;
 public class ApiTest extends BaseTest{
 
     private MockWebServer webServer;
+    private AppServerDispatcher dispatcher;
 
     @Inject
     IApi api;
@@ -43,32 +43,13 @@ public class ApiTest extends BaseTest{
         Log.d(App.TAG, "Test setUp");
         super.setUp();
         component.inject(this);
+        dispatcher = new AppServerDispatcher();
 
         testUtils = new TestUtils();
         webServer = new MockWebServer();
         webServer.start();
-        webServer.setDispatcher(new Dispatcher() {
-            @Override
-            public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
-                MockResponse response;
-                if (request.getPath().equals("/savingsgoals")) {
-                    response = new MockResponse().setResponseCode(200)
-                            .setBody(testUtils.readString("json/goals.json"));
-                } else if (request.getPath().equals("/savingsgoals/" + Params.Const.GOAL_ID + "/feed")) {
-                    response = new MockResponse().setResponseCode(200)
-                            .setBody(testUtils.readString("json/feed.json"));
-                } else if (request.getPath().equals("/savingsrules")) {
-                    response = new MockResponse().setResponseCode(200)
-                            .setBody(testUtils.readString("json/rules.json"));
-                } else if (request.getPath().equals("/user/" + Params.Const.USER_ID)) {
-                    response = new MockResponse().setResponseCode(200)
-                            .setBody(testUtils.readString("json/user.json"));
-                } else {
-                    response = new MockResponse().setResponseCode(404);
-                }
-                return response;
-            }
-        });
+        webServer.setDispatcher(dispatcher);
+
         HttpUrl url = webServer.url("/");
         api = ApiModule.getApiInterface(url.toString());
     }
@@ -97,6 +78,19 @@ public class ApiTest extends BaseTest{
         assertEquals("active", savingsGoal.getStatus());
         assertEquals("Balloons", savingsGoal.getName());
         assertEquals(8, goals.getSavingsGoals().size());
+    }
+
+    @Test
+    public void testNoGoals() throws Exception {
+        dispatcher.setGoalsResponse(GoalsWebResource.Resource.GOALS_EMPTY);
+
+        TestSubscriber<SavingsGoals> testSubscriber = new TestSubscriber<>();
+        api.getSavingsGoals().subscribe(testSubscriber);
+
+        testSubscriber.assertNoErrors();
+        testSubscriber.assertValueCount(1);
+        SavingsGoals goals = testSubscriber.getOnNextEvents().get(0);
+        assertEquals(0, goals.getSavingsGoals().size());
     }
 
     @Test

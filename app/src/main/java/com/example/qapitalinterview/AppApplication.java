@@ -8,10 +8,11 @@ import android.support.multidex.MultiDex;
 import com.example.qapitalinterview.di.ApiModule;
 import com.example.qapitalinterview.di.AppComponent;
 import com.example.qapitalinterview.di.DaggerAppComponent;
+import com.example.qapitalinterview.di.IComponent;
 
 public class AppApplication extends Application {
 
-    protected static AppComponent appComponent;
+    protected static IComponent appComponent;
 
     @Override
     public void onCreate() {
@@ -25,11 +26,11 @@ public class AppApplication extends Application {
         MultiDex.install(this);
     }
 
-    public static AppComponent getAppComponent() {
+    public static IComponent getAppComponent() {
         return appComponent;
     }
 
-    protected AppComponent buildComponent() {
+    protected IComponent buildComponent() {
         return DaggerAppComponent.builder()
                 .apiModule(new ApiModule(this))
                 .build();

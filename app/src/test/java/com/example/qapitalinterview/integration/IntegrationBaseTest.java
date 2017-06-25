@@ -1,15 +1,13 @@
 package com.example.qapitalinterview.integration;
 
 import com.example.qapitalinterview.BuildConfig;
-import com.example.qapitalinterview.integration.di.DaggerIntegrationComponent;
+import com.example.qapitalinterview.di.IComponent;
 import com.example.qapitalinterview.integration.di.IntegrationComponent;
-import com.example.qapitalinterview.integration.di.IntegrationModule;
 import com.example.qapitalinterview.integration.di.IntegrationTestApplication;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
@@ -23,8 +21,9 @@ public class IntegrationBaseTest {
 
     @Before
     public void setUp() throws Exception {
-        component = DaggerIntegrationComponent.builder()
-                .integrationModule(new IntegrationModule(RuntimeEnvironment.application))
-                .build();
+        component = (IntegrationComponent) IntegrationTestApplication.getAppComponent();
+//        component = DaggerIntegrationComponent.builder()
+//                .integrationModule(new IntegrationModule(RuntimeEnvironment.application))
+//                .build();
     }
 }
