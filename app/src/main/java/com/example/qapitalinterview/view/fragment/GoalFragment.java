@@ -30,6 +30,10 @@ public class GoalFragment extends Fragment implements IGoalView {
     private RecyclerView recyclerView;
     private GoalsAdapter adapter;
 
+    private View placeholder;
+    private View placeholderNoData;
+    private View placeholderWaiting;
+
     @Inject
     IGoalsPresenter presenter;
 
@@ -43,6 +47,9 @@ public class GoalFragment extends Fragment implements IGoalView {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_goal, container, false);
+        placeholder = view.findViewById(R.id.placeholder);
+        placeholderWaiting = view.findViewById(R.id.placeholder_waiting);
+        placeholderNoData = view.findViewById(R.id.placeholder_no_data);
         initViewComponent();
         return view;
     }
@@ -85,8 +92,25 @@ public class GoalFragment extends Fragment implements IGoalView {
     }
 
     @Override
+    public void showEmptyScreen(boolean isShow) {
+        placeholder.setVisibility(isShow ? View.VISIBLE : View.GONE);
+        placeholderNoData.setVisibility(View.VISIBLE);
+        placeholderWaiting.setVisibility(View.GONE);
+    }
+
+    @Override
     public void showError() {
-        Toast.makeText(getActivity(), R.string.error_goals, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), R.string.error_goals, Toast.LENGTH_SHORT).show();
+        placeholder.setVisibility(View.VISIBLE);
+        placeholderNoData.setVisibility(View.VISIBLE);
+        placeholderWaiting.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showInProgress(boolean isInProgress) {
+        placeholder.setVisibility(View.VISIBLE);
+        placeholderNoData.setVisibility(isInProgress ? View.GONE : View.VISIBLE);
+        placeholderWaiting.setVisibility(isInProgress ? View.VISIBLE : View.GONE);
     }
 
     @Override

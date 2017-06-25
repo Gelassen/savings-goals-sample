@@ -8,9 +8,12 @@ import com.example.qapitalinterview.App;
 import com.example.qapitalinterview.AppApplication;
 import com.example.qapitalinterview.di.IComponent;
 import com.example.qapitalinterview.model.IModel;
+import com.example.qapitalinterview.model.SavingsGoal;
 import com.example.qapitalinterview.model.SavingsGoals;
 import com.example.qapitalinterview.view.GoalDetailsActivity;
 import com.example.qapitalinterview.view.IGoalView;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -60,6 +63,7 @@ public class SavingsGoalPresenter implements IGoalsPresenter {
         }
 
         setWorkInBackground(true);
+        view.showInProgress(true);
         model.getSavingGoals().subscribe(new Observer<SavingsGoals>() {
             @Override
             public void onCompleted() {
@@ -71,6 +75,7 @@ public class SavingsGoalPresenter implements IGoalsPresenter {
                 Log.e(App.TAG, "onError: ", e);
                 setWorkInBackground(false);
                 view.showError();
+                view.showData(new ArrayList<SavingsGoal>());
             }
 
             @Override
@@ -79,8 +84,10 @@ public class SavingsGoalPresenter implements IGoalsPresenter {
                 setWorkInBackground(false);
                 if (savingsGoals != null && !savingsGoals.getSavingsGoals().isEmpty()) {
                     view.showData(savingsGoals.getSavingsGoals());
+                    view.showInProgress(false);
+                    view.showEmptyScreen(false);
                 } else {
-                    view.showError();
+                    view.showEmptyScreen(false);
                 }
                 Log.d(App.TAG, "savings goal receive result: " + (savingsGoals == null ? "null" : savingsGoals.getSavingsGoals().size()));
             }

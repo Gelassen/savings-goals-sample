@@ -17,18 +17,34 @@
         android:background="?attr/colorPrimary"
         />
 
-    <!--<FrameLayout-->
-        <!--android:id="@+id/container"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_below="@+id/toolbar"-->
-        <!--/>-->
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
         />
+
+    <FrameLayout
+        android:id="@+id/placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/placeholder_no_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="No goals"
+            />
+
+        <ProgressBar
+            android:id="@+id/placeholder_waiting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            />
+
+    </FrameLayout>
 
 </RelativeLayout>

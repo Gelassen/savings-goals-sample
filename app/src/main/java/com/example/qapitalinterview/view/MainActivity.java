@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.qapitalinterview.R;
@@ -25,6 +26,10 @@ public class MainActivity extends BaseActivity implements IGoalView {
     private RecyclerView recyclerView;
     private GoalsAdapter adapter;
 
+    private View placeholder;
+    private View placeholderNoData;
+    private View placeholderWaiting;
+
     @Inject
     protected IGoalsPresenter presenter;
 
@@ -34,6 +39,9 @@ public class MainActivity extends BaseActivity implements IGoalView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        placeholder = findViewById(R.id.placeholder);
+        placeholderWaiting = findViewById(R.id.placeholder_waiting);
+        placeholderNoData = findViewById(R.id.placeholder_no_data);
 
         initViewComponent();
 
@@ -58,6 +66,10 @@ public class MainActivity extends BaseActivity implements IGoalView {
                     .build();
         }
         viewComponent.inject(this);
+
+        placeholder.setVisibility(View.INVISIBLE);
+        placeholderNoData.setVisibility(View.GONE);
+        placeholderWaiting.setVisibility(View.GONE);
     }
 
     public IGoalsPresenter getPresenter() {
@@ -80,8 +92,25 @@ public class MainActivity extends BaseActivity implements IGoalView {
     }
 
     @Override
+    public void showEmptyScreen(boolean isShow) {
+        placeholder.setVisibility(isShow ? View.VISIBLE : View.GONE);
+        placeholderNoData.setVisibility(View.VISIBLE);
+        placeholderWaiting.setVisibility(View.GONE);
+    }
+
+    @Override
     public void showError() {
         Toast.makeText(this, R.string.error_goals, Toast.LENGTH_SHORT).show();
+        placeholder.setVisibility(View.VISIBLE);
+        placeholderNoData.setVisibility(View.VISIBLE);
+        placeholderWaiting.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showInProgress(boolean isInProgress) {
+        placeholder.setVisibility(View.VISIBLE);
+        placeholderNoData.setVisibility(isInProgress ? View.GONE : View.VISIBLE);
+        placeholderWaiting.setVisibility(isInProgress ? View.VISIBLE : View.GONE);
     }
 
     @Override

@@ -12,6 +12,8 @@ import java.util.List;
 
 public interface IGoalView {
     void showData(List<SavingsGoal> data);
+    void showEmptyScreen(boolean isShow);
     void showError();
+    void showInProgress(boolean isInProgress);
     Context getContext();
 }
