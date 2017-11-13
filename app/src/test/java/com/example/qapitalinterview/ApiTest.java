@@ -3,8 +3,6 @@ package com.example.qapitalinterview;
 
 import android.util.Log;
 
-import com.example.qapitalinterview.di.ApiModule;
-import com.example.qapitalinterview.api.IApi;
 import com.example.qapitalinterview.model.Feed;
 import com.example.qapitalinterview.model.Feeds;
 import com.example.qapitalinterview.model.SavingRules;
@@ -13,16 +11,12 @@ import com.example.qapitalinterview.model.SavingsGoals;
 import com.example.qapitalinterview.model.SavingsRule;
 import com.example.qapitalinterview.utils.Params;
 import com.example.qapitalinterview.utils.TestUtils;
-import com.example.qapitalinterview.webresources.AppServerDispatcher;
 import com.example.qapitalinterview.webresources.GoalsWebResource;
-import com.squareup.okhttp.HttpUrl;
-import com.squareup.okhttp.mockwebserver.MockWebServer;
+import com.example.qapitalinterview.webresources.ServerRule;
 
-import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-
-import javax.inject.Inject;
 
 import rx.observers.TestSubscriber;
 
@@ -30,34 +24,21 @@ import static org.junit.Assert.*;
 
 public class ApiTest extends BaseTest{
 
-    private MockWebServer webServer;
-    private AppServerDispatcher dispatcher;
-
-    @Inject
-    IApi api;
-
-    private TestUtils testUtils;
+    @Rule
+    public ServerRule serverRule = new ServerRule();
 
     @Before
     public void setUp() throws Exception {
         Log.d(App.TAG, "Test setUp");
         super.setUp();
         component.inject(this);
-        dispatcher = new AppServerDispatcher();
-
         testUtils = new TestUtils();
-        webServer = new MockWebServer();
-        webServer.start();
-        webServer.setDispatcher(dispatcher);
-
-        HttpUrl url = webServer.url("/");
-        api = ApiModule.getApiInterface(url.toString());
     }
 
     @Test
     public void testGoals() throws Exception {
         TestSubscriber<SavingsGoals> testSubscriber = new TestSubscriber<>();
-        api.getSavingsGoals().subscribe(testSubscriber);
+        serverRule.getApi().getSavingsGoals().subscribe(testSubscriber);
 
         testSubscriber.assertNoErrors();
         testSubscriber.assertValueCount(1);
@@ -82,10 +63,10 @@ public class ApiTest extends BaseTest{
 
     @Test
     public void testNoGoals() throws Exception {
-        dispatcher.setGoalsResponse(GoalsWebResource.Resource.GOALS_EMPTY);
+        serverRule.getDispatcher().setGoalsResponse(GoalsWebResource.Resource.GOALS_EMPTY);
 
         TestSubscriber<SavingsGoals> testSubscriber = new TestSubscriber<>();
-        api.getSavingsGoals().subscribe(testSubscriber);
+        serverRule.getApi().getSavingsGoals().subscribe(testSubscriber);
 
         testSubscriber.assertNoErrors();
         testSubscriber.assertValueCount(1);
@@ -96,7 +77,7 @@ public class ApiTest extends BaseTest{
     @Test
     public void testSavingsRules() throws Exception {
         TestSubscriber<SavingRules> testSubscriber = new TestSubscriber<>();
-        api.getSavingsRules().subscribe(testSubscriber);
+        serverRule.getApi().getSavingsRules().subscribe(testSubscriber);
 
         testSubscriber.assertNoErrors();
         testSubscriber.assertValueCount(1);
@@ -113,7 +94,7 @@ public class ApiTest extends BaseTest{
     @Test
     public void testSpecificGoal() throws Exception {
         TestSubscriber<Feeds> testSubscriber = new TestSubscriber<>();
-        api.getSavingsGoalFeed(Params.Const.GOAL_ID).subscribe(testSubscriber);
+        serverRule.getApi().getSavingsGoalFeed(Params.Const.GOAL_ID).subscribe(testSubscriber);
 
         testSubscriber.assertNoErrors();
         testSubscriber.assertValueCount(1);
@@ -132,8 +113,4 @@ public class ApiTest extends BaseTest{
         assertEquals(0, feed.getGoalId());
     }
 
-    @After
-    public void tearDown() throws Exception {
-        webServer.shutdown();
-    }
 }

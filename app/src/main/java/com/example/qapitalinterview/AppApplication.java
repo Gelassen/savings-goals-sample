@@ -6,7 +6,6 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.example.qapitalinterview.di.ApiModule;
-import com.example.qapitalinterview.di.AppComponent;
 import com.example.qapitalinterview.di.DaggerAppComponent;
 import com.example.qapitalinterview.di.IComponent;
 
@@ -35,4 +34,5 @@ public class AppApplication extends Application {
                 .apiModule(new ApiModule(this))
                 .build();
     }
+
 }
