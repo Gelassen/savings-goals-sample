@@ -14,9 +14,11 @@ import com.example.qapitalinterview.view.GoalDetailsActivity;
 import com.example.qapitalinterview.view.IGoalView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
+import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.subscriptions.Subscriptions;
@@ -64,7 +66,9 @@ public class SavingsGoalPresenter implements IGoalsPresenter {
 
         setWorkInBackground(true);
         view.showInProgress(true);
-        model.getSavingGoals().subscribe(new Observer<SavingsGoals>() {
+
+        Observable<SavingsGoals> observable = model.getSavingGoals();
+        observable.subscribe(new Observer<SavingsGoals>() {
             @Override
             public void onCompleted() {
                 // no op

@@ -14,7 +14,7 @@ import org.robolectric.RobolectricTestRunner;
 @RunWith(RobolectricTestRunner.class)
 @Config(application = TestApplication.class,
         constants = BuildConfig.class,
-        sdk = 21)
+        sdk = 23)
 @Ignore
 public class BaseTest {
 

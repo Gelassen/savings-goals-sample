@@ -2,22 +2,29 @@ package com.example.qapitalinterview;
 
 
 import com.example.qapitalinterview.model.IModel;
+import com.example.qapitalinterview.model.SavingsGoal;
 import com.example.qapitalinterview.model.SavingsGoals;
 import com.example.qapitalinterview.presenter.SavingsGoalPresenter;
+import com.example.qapitalinterview.utils.TestObservable;
 import com.example.qapitalinterview.view.IGoalView;
 import com.example.qapitalinterview.view.MainActivity;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
 import org.robolectric.RuntimeEnvironment;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import rx.Observable;
+import rx.observers.TestObserver;
 
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
@@ -30,9 +37,8 @@ public class GoalsPresenterTest extends BaseTest {
     private IGoalView view;
 
     private SavingsGoalPresenter presenter;
-    private SavingsGoals stubResponse;
 
-    private MainActivity activity;
+    private TestObservable<SavingsGoals> testObservable;
 
     @Override
     @Before
@@ -43,45 +49,45 @@ public class GoalsPresenterTest extends BaseTest {
         view = mock(IGoalView.class);
         presenter = new SavingsGoalPresenter(RuntimeEnvironment.application, view);
 
-        stubResponse = testUtils.getGson().fromJson(testUtils.readString("json/goals.json"), SavingsGoals.class);
-
-        activity = Robolectric.setupActivity(MainActivity.class);
-
-        doAnswer(invocation -> Observable.just(stubResponse))
-                .when(model)
-                .getSavingGoals();
+        testObservable = TestObservable.testObservable();
+        when(model.getSavingGoals()).thenReturn(testObservable);
     }
 
     @Test
     public void testSavingsGoalPresenter() throws Exception {
+        SavingsGoals goals = new SavingsGoals();
+        testObservable.onNext(goals);
         assertFalse(presenter.getModel() == null);
         assertFalse(presenter.getView() == null);
     }
 
     @Test
     public void testShowData() throws Exception {
+        SavingsGoals goals = mock(SavingsGoals.class);
+        when(goals.getSavingsGoals()).thenReturn(Collections.singletonList(new SavingsGoal()));
+
         presenter.onRefreshData();
-        verify(view).showData(stubResponse.getSavingsGoals());
+        testObservable.onNext(goals);
+
+        verify(view).showData(any());
     }
 
     @Test
     public void testShowEmptyList() throws Exception {
-        doAnswer(invocation -> Observable.just(null))
-                .when(model)
-                .getSavingGoals();
-
         presenter.onRefreshData();
-        verify(view).showError();
+        testObservable.onNext(null);
+
+        verify(view).showEmptyScreen(false);
     }
 
     @Test
     public void testShowDataWhenThereIsNoData() throws Exception {
-        doAnswer(invocation -> Observable.just(new ArrayList<SavingsGoals>()))
-                .when(model)
-                .getSavingGoals();
+        SavingsGoals goals = new SavingsGoals();
 
         presenter.onRefreshData();
-        verify(view).showError();
+        testObservable.onNext(goals);
+
+        verify(view).showEmptyScreen(false);
     }
 
 }
